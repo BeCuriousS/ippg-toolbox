@@ -29,11 +29,12 @@ class ProcessUBFC:
     """Combination of methods to run the full benchmark on the UBFC database.
     """
 
-    def __init__(self):
+    def __init__(self, dst_dir):
         # ----------------------------------------------------------
         # vars
         # ----------------------------------------------------------
         self.df = {}
+        self.dst_dir = dst_dir
         # ----------------------------------------------------------
         # shortcuts
         # ----------------------------------------------------------
@@ -52,7 +53,6 @@ class ProcessUBFC:
         # ----------------------------------------------------------
         self.db_dir = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/measurements'
         self.mean_rgb_dir = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/processing/sensors_2021_ms/MEAN_RGB_deepLab'
-        self.dst_dir = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/processing/sensors_2021_ms/evaluation'
         # ----------------------------------------------------------
         # set db specific vars
         # ----------------------------------------------------------
@@ -184,7 +184,6 @@ class ProcessBP4D(ProcessUBFC):
         # ----------------------------------------------------------
         self.db_dir = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/measurements'
         self.mean_rgb_dir = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/MEAN_RGB_deepLab'
-        self.dst_dir = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/evaluation'
         # ----------------------------------------------------------
         # set db specific vars
         # ----------------------------------------------------------
@@ -210,5 +209,8 @@ class ProcessBP4D(ProcessUBFC):
 
 if __name__ == '__main__':
 
-    ProcessUBFC()
-    ProcessBP4D()
+    df_dir_ubfc = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/processing/sensors_2021_ms/evaluation'
+    ProcessUBFC(df_dir_ubfc)
+    
+    df_dir_bp4d = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/evaluation'
+    ProcessBP4D(df_dir_bp4d)
