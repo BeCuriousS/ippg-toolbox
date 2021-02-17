@@ -7,7 +7,8 @@ Email: Matthieu.Scherpf@tu-dresden.de
 Website: https://becuriouss.github.io/matthieuscherpf/
 Project page: tba
  -----------------------------------------------------------------------------
-Purpose: Execute to run the full benchmark.
+Purpose: Execute to run the full benchmark and create a pandas dataframe to
+ease further plotting steps.
  -----------------------------------------------------------------------------
 """
 import numpy as np
