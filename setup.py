@@ -2,4 +2,4 @@
 
 from setuptools import setup, find_packages
 
-setup(name='ippgtoolbox', packages=['benchmark'])
+setup(name='ippgtoolbox', packages=['benchmark', 'detection'])

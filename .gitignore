@@ -128,8 +128,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# vscode settings data
+.vscode
+
 # FIXME revise deeplab implementation and include in toolbox
-/detection/facial/deeplab
+/detection/skin/facial/deeplab
 
 # FIXME exclude trained deeplab models (files too largs) -> revise deeplab implementation
 # roi_detection/deepLab/code_from_misera/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/vis/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/segmentation_results
