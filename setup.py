@@ -1,5 +1,23 @@
 # FIXME revise this file according to https://packaging.python.org/tutorials/packaging-projects/
 
-from setuptools import setup, find_packages
+import setuptools
 
-setup(name='ippgtoolbox', packages=['benchmark', 'detection'])
+setuptools.setup(
+    name='ippgtoolbox',
+    version='0.1',
+    description='toolbox for imaging photoplethysmography',
+    author='Matthieu Scherpf',
+    author_email='Matthieu.Scherpf@tu-dresden.de',
+    packages=[
+        'benchmark',
+        'detection',
+        'utils',
+    ],
+    install_requires=[
+        'opencv-python',
+        'numpy',
+        'scipy',
+        'matplotlib',
+        'pandas',
+        'ipython',
+    ])

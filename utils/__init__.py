@@ -5,3 +5,5 @@ from .video.msrReader import MSRReader, MSR2Reader
 from .signal.ubfcSigReader import UBFCSigReader
 from .signal.bp4dSigReader import BP4DSigReader
 from .signal.unisensSigReader import UnisensSigReader
+
+from .logger import Logger
