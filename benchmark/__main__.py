@@ -23,7 +23,8 @@ import traceback
 import pandas as pd
 
 from benchmark import BenchmarkAlgorithms, BenchmarkMetrics, ProcessExtraction
-from benchmark import settings, processing
+from benchmark import settings
+import processing
 
 
 class ProcessUBFC:
@@ -212,6 +213,6 @@ if __name__ == '__main__':
 
     df_dir_ubfc = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/processing/sensors_2021_ms/evaluation'
     ProcessUBFC(df_dir_ubfc)
-    
+
     df_dir_bp4d = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/evaluation'
     ProcessBP4D(df_dir_bp4d)

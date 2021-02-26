@@ -12,7 +12,7 @@ Purpose: Implementation of the "standard" algorithms used for comparison in the 
 """
 import numpy as np
 from .benchmarkSettings import settings
-from .processing import apply_filter
+from processing import apply_filter
 
 
 class BenchmarkAlgorithms:
