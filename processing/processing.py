@@ -277,7 +277,7 @@ def compute_snr(seq,
         blood volume pulse (BVP) signal
     sample_freq : float
         sample frequency of the BVP signal
-    ref_hr_bpm : float, optional
+    ref_hr_bpm : float
         the reference heart rate used to calculate the SNR
     freq_limits_bpm : tuple, optional
         frequency limits for the computation of the SNR; Remember this is the combination of the physiological range and the bin range, by default (24, 412) (i.e. assuming a physiological heart rate between 30 and 200bpm)

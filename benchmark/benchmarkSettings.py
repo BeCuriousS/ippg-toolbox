@@ -160,7 +160,7 @@ class BenchmarkSettings:
         overwrite : boolean, optional
             if the color distortion should be applied or not, by default None
         """
-        return overwrite or True
+        return overwrite or False
 
     def FILTER_ORDER(self, overwrite=None):
         """Order of the butterworth filter that is used. Consider that the filtering is done using zero-phase filtering which means the filtering is done in both directions of the signal. Therefore, the resulting filter order is the double. When using the (butterworth) 'bandpass' filter option the filter order is as well the double. Therefore, when using 'bandpass' filter the resulting filter order is 4 times larger than specified here.
