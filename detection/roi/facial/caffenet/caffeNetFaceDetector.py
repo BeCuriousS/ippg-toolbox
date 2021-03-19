@@ -31,7 +31,6 @@ class CaffeNetFaceDetector(object):
 
     def __init__(self,
                  conf_th=0.5,
-                 bitdepth=8,
                  input_type='float',
                  zoom_factor=1,
                  face_loc_resize=(1., 1.),
@@ -42,12 +41,10 @@ class CaffeNetFaceDetector(object):
         ----------
         conf_th : float, optional
             the confidence threshold to use for the detected bounded boxes, by default 0.5
-        bitdepth : int, optional
-            the color channel bitdepth of the input image, by default 8
         input_type : {'float', 'uint8'}, optional
             the data type of the image values. If 'float', then the values must lie in range [0, 1]. If 'uint8' the values are assumed to lie in range [0, 255] , by default 'float'
         zoom_factor : int, optional
-            the zoom factor to apply on the input image. This can mitigate the problem of false detection, if the a face is quite near to the image border, by default 1
+            the zoom factor to apply on the input image. This can mitigate the problem of false detection, if the a face is quite near to the image border. The value should lie between 0.5 and 1. to take effect, by default 1
         face_loc_resize : tuple, optional
             the resizing of the bounding box found by the network. You can enlarge or shrink it if needed, by default (1., 1.)
         rgb2bgr : bool, optional
@@ -59,7 +56,6 @@ class CaffeNetFaceDetector(object):
                          'res10_300x300_ssd_iter_140000.caffemodel')
         )
         self.conf_th = conf_th
-        self.bitdepth = bitdepth
         self.input_type = input_type
         self.zoom_factor = zoom_factor
         self.face_loc_resize = face_loc_resize
@@ -92,7 +88,7 @@ class CaffeNetFaceDetector(object):
         frame = clipped_zoom(frame, self.zoom_factor)
 
         if self.input_type == 'float':
-            frame = (frame*(2**self.bitdepth-1)).astype(np.uint8)
+            frame = (frame*(2**8-1)).astype(np.uint8)
         elif self.input_type == 'uint8':
             pass
         else:
