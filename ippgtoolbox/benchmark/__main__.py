@@ -137,7 +137,8 @@ class ProcessUBFC:
             data[key] = val[:min_length]
         self.ref_seq = self.ref_seq[:min_length]
         # compute
-        pE = ProcessExtraction(self.ref_seq, self.sample_freq)
+        pE = ProcessExtraction(
+            self.ref_seq, self.sample_freq, ref_is_hr_seq=self.ref_is_hr_seq)
         for key, value in data.items():
             pE.compute_features_and_metrics(value, self.sample_freq, key)
         self.report = pE.get_report()
@@ -190,7 +191,7 @@ class ProcessBP4D(ProcessUBFC):
         # set db specific vars
         # ----------------------------------------------------------
         self.sample_freq = 25
-        self.ref_is_hr_seq = False
+        self.ref_is_hr_seq = True
 
     def _collect_record_names(self):
         self.record_names = [rn for rn in os.listdir(self.db_dir)
@@ -198,8 +199,10 @@ class ProcessBP4D(ProcessUBFC):
 
     def _read_reference(self):
         # resample to lower sample frequency to speed up computation
+        # ref_seq = np.loadtxt(os.path.join(
+        #     self.db_dir, self.record_name, 'signals', 'BP_mmHg.txt'))
         ref_seq = np.loadtxt(os.path.join(
-            self.db_dir, self.record_name, 'signals', 'BP_mmHg.txt'))
+            self.db_dir, self.record_name, 'signals', 'Pulse Rate_BPM.txt'))
         self.ref_seq = processing.resample_sequence(
             ref_seq, self.sample_freq, sample_freq=1000)
 
