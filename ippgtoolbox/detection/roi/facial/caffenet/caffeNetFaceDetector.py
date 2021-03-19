@@ -26,7 +26,7 @@ class CaffeNetFaceDetector(object):
     """
 
     MODEL_PATH = pkg_resources.resource_filename(
-        'detection', 'roi/facial/caffenet/rsc')
+        'ippgtoolbox', 'detection/roi/facial/caffenet/rsc')
     INSTANCE = None
 
     def __init__(self,

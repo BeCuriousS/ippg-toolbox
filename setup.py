@@ -9,9 +9,10 @@ setuptools.setup(
     author='Matthieu Scherpf',
     author_email='Matthieu.Scherpf@tu-dresden.de',
     packages=[
-        'benchmark',
-        'detection',
-        'utils',
+        'ippgtoolbox/benchmark',
+        'ippgtoolbox/detection',
+        'ippgtoolbox/processing',
+        'ippgtoolbox/utils',
     ],
     install_requires=[
         'opencv-python',

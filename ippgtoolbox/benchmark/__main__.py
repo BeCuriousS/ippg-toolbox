@@ -24,7 +24,7 @@ import pandas as pd
 
 from benchmark import BenchmarkAlgorithms, BenchmarkMetrics, ProcessExtraction
 from benchmark import settings
-import processing
+import ..processing
 
 
 class ProcessUBFC:

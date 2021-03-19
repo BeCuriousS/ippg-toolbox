@@ -17,7 +17,7 @@ import warnings
 
 from .benchmarkSettings import settings
 from .benchmarkMetrics import BenchmarkMetrics
-from processing import *
+from ..processing import *
 
 
 class ProcessExtraction:
