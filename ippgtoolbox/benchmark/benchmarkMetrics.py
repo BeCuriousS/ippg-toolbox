@@ -39,6 +39,8 @@ class BenchmarkMetrics:
         self._calc_rmse()
         self._calc_pearsonr()
         self._calc_acc()
+        self._calc_acc_AUC()
+        self._calc_acc_AUC_perc()
 
     def get_metrics(self):
         """Returns all the metrics defined within this class.
@@ -101,12 +103,34 @@ class BenchmarkMetrics:
         acc_iec = correct.sum() / correct.size
         self.metrics['acc_iec'] = acc_iec
 
-    def _calc_acc_AUC(self):
-        """Area under curve for error (in bpm [1,...,10]) vs. corresponding accuracy as defined in:
+    def _calc_acc_AUC(self, n_roc_points=51):
+        """Area under curve for errors between [0, 10] bpm vs. corresponding accuracy corresponding to:
 
         Wang, Wenjin; Den Brinker, Albertus C.; Stuijk, Sander; Haan, Gerard de (2017): Color-Distortion Filtering for Remote Photoplethysmography. In: 12th IEEE International Conference on Automatic Face and Gesture Recognition - FG 2017. pp. 71–78. DOI: 10.1109/FG.2017.18.
         """
-        pass
+        abs_diff = np.abs(
+            self.extracted[self.valid] - self.reference[self.valid])
+        errors = np.linspace(0, 10, num=n_roc_points, endpoint=True)
+        acc_curve = np.zeros((n_roc_points,))
+        for i, err in enumerate(errors):
+            acc_curve[i] = np.sum(abs_diff <= err) / abs_diff.size
+        auc = np.trapz(acc_curve) / (n_roc_points - 1)
+        self.metrics['acc_auc'] = auc
+
+    def _calc_acc_AUC_perc(self, n_roc_points=51):
+        """Area under curve for errors between [0, 10] percent of reference heart rate vs. corresponding accuracy inspired by:
+
+        Wang, Wenjin; Den Brinker, Albertus C.; Stuijk, Sander; Haan, Gerard de (2017): Color-Distortion Filtering for Remote Photoplethysmography. In: 12th IEEE International Conference on Automatic Face and Gesture Recognition - FG 2017. pp. 71–78. DOI: 10.1109/FG.2017.18.
+        """
+        abs_diff = np.abs(
+            self.extracted[self.valid] - self.reference[self.valid])
+        errors_perc = np.linspace(0, 10, num=n_roc_points, endpoint=True)/100
+        acc_curve = np.zeros((n_roc_points,))
+        for i, ep in enumerate(errors_perc):
+            acc_curve[i] = np.sum(
+                abs_diff <= self.reference[self.valid]*ep) / abs_diff.size
+        auc = np.trapz(acc_curve) / (n_roc_points - 1)
+        self.metrics['acc_auc_perc'] = auc
 
     def _get_valid_mask(self):
         """Build mask to extract only the valid values (not np.nan or np.inf)
