@@ -13,6 +13,7 @@ Purpose: Implementation of the "standard" algorithms used for comparison in the 
 import numpy as np
 from .benchmarkSettings import settings
 from ..processing import apply_filter
+from scipy import interpolate
 
 
 class BenchmarkAlgorithms:
@@ -20,7 +21,7 @@ class BenchmarkAlgorithms:
     """
 
     def __init__(self, rgb_seq, sample_freq, apply_cdf=False, normalize=False):
-        """Use this class to evaluate any [R,G,B]-sequence extracted from the mean of any region of interest.
+        """Use this class to evaluate any [R,G,B]-sequence extracted from the mean of any region of interest with the here implemented standard algorithms.
 
         Parameters
         ----------
@@ -87,7 +88,7 @@ class BenchmarkAlgorithms:
         while idx_start < rgb_seq.shape[0]:
             idx_end = int(idx_start + self.sample_freq * self._cdf_len)
             wsize = int(np.ceil((idx_end - idx_start) * (1 - self._cdf_olap)))
-            interval = rgb_seq[idx_start:idx_end]  # line 0
+            interval = rgb_seq[idx_start:idx_end].copy()  # line 0
             x = np.arange(0, interval.shape[0]) * \
                 self.sample_freq / interval.shape[0]  # line 1
             mean = np.mean(interval, axis=0)  # line 2
@@ -135,7 +136,7 @@ class BenchmarkAlgorithms:
         n = self.rgb_seq.shape[0]  # number of sample points, i.e. frames
         w_hann = np.hanning(tmp_norm_n_frames)
         segments = []
-        c = self.rgb_seq
+        c = self.rgb_seq.copy()
         # loop over overlapping windows
         i_start = 0
         i_end = i_start + tmp_norm_n_frames
@@ -169,6 +170,10 @@ class BenchmarkAlgorithms:
         h = np.zeros((1, h_length))
         for i_start, i_end, s in segments:
             h[0, i_start:i_end] += s
+        # adjust length
+        h = interpolate.interp1d(
+            np.arange(0, h.shape[1]), h.squeeze(), fill_value='extrapolate')(
+                np.arange(0, self.rgb_seq.shape[0]))
 
         return h.squeeze()[:, np.newaxis]
 
@@ -191,7 +196,7 @@ class BenchmarkAlgorithms:
         # compute bvp
         n = self.rgb_seq.shape[0]  # number of sample points, i.e. frames
         h = np.zeros((1, n))
-        c = self.rgb_seq
+        c = self.rgb_seq.copy()
         # loop over overlapping windows
         for i in range(n):
             m = i - tmp_norm_n_frames

@@ -12,14 +12,14 @@ Purpose: Testing the metrics
 """
 # %%
 import numpy as np
-from benchmark import BenchmarkMetrics
+from ippgtoolbox.benchmark import BenchmarkMetrics
 
 
 class TestBenchmarkMetrics:
 
     def __init__(self):
-        self.extracted = np.arange(0, 20)
-        self.reference = np.arange(0, 20) + 6
+        self.extracted = np.arange(60, 120)
+        self.reference = np.arange(60, 120) + np.random.rand(60,) * 10
         self.bM = BenchmarkMetrics(self.extracted, self.reference)
         print(self.bM.get_metrics())
         print(self.bM.get_meta())

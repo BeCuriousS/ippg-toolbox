@@ -22,9 +22,11 @@ import warnings
 import traceback
 import pandas as pd
 
-from benchmark import BenchmarkAlgorithms, BenchmarkMetrics, ProcessExtraction
-from benchmark import settings
-import ..processing
+from ippgtoolbox.benchmark import BenchmarkAlgorithms
+from ippgtoolbox.benchmark import BenchmarkMetrics
+from ippgtoolbox.benchmark import ProcessExtraction
+from ippgtoolbox.benchmark import settings
+from ippgtoolbox import processing
 
 
 class ProcessUBFC:
@@ -128,7 +130,11 @@ class ProcessUBFC:
         for fn in os.listdir(self.full_dst_dir):
             if fn.startswith('bvp_'):
                 bvp = loadmat(os.path.join(self.dst_dir, self.record_name, fn))
-                name = fn.split('_')[1].split('.')[0]
+                name = fn[fn.find('_')+1:fn.find('.')]
+                if 'DeepPerfusion' in name:
+                    bvp[name] = np.squeeze(bvp[name])
+                    bvp[name] = processing.resample_sequence(
+                        bvp[name], 30, sample_freq=25)
                 data[name] = bvp[name]
                 if len(bvp[name]) < min_length:
                     min_length = len(bvp[name])
@@ -217,5 +223,5 @@ if __name__ == '__main__':
     df_dir_ubfc = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/processing/sensors_2021_ms/evaluation'
     ProcessUBFC(df_dir_ubfc)
 
-    df_dir_bp4d = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/evaluation'
-    ProcessBP4D(df_dir_bp4d)
+    # df_dir_bp4d = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/evaluation'
+    # ProcessBP4D(df_dir_bp4d)
