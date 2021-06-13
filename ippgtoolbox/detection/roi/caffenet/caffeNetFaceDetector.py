@@ -17,7 +17,7 @@ import pkg_resources
 from ..helpers import *
 
 
-class CaffeNetFaceDetector(object):
+class CaffeNetFaceDetector:
     """Standard face detection residual neural network based on caffe. The following repository was used for this implementation:
 
     https://github.com/sr6033/face-detection-with-OpenCV-and-DNN
@@ -26,7 +26,7 @@ class CaffeNetFaceDetector(object):
     """
 
     MODEL_PATH = pkg_resources.resource_filename(
-        'ippgtoolbox', 'detection/roi/facial/caffenet/rsc')
+        'ippgtoolbox', 'detection/roi/caffenet/rsc')
     INSTANCE = None
 
     def __init__(self,
@@ -75,11 +75,6 @@ class CaffeNetFaceDetector(object):
         -------
         numpy.ndarray of shape (4,)
             locations of the detected face as specified in the opencv dnn format. If no face could be found the original image size is returned as loc.
-
-        Raises
-        ------
-        NotImplementedError
-            if the defined data type is not implemented
         """
         frame = frame.copy()
         (h, w) = frame.shape[0:2]
@@ -87,16 +82,7 @@ class CaffeNetFaceDetector(object):
 
         frame = clipped_zoom(frame, self.zoom_factor)
 
-        if self.input_type == 'float':
-            frame = (frame*(2**8-1)).astype(np.uint8)
-        elif self.input_type == 'uint8':
-            pass
-        else:
-            raise NotImplementedError(
-                'This input_type <<{}>> is not implemented.'.format(self.input_type))
-
-        if self.convert_rgb2bgr:
-            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        frame = self._convert_img(frame)
 
         frame = cv2.dnn.blobFromImage(cv2.resize(
             frame, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0))
@@ -168,6 +154,34 @@ class CaffeNetFaceDetector(object):
         if verbose:
             return face_mask, face_loc
         return face_mask
+
+    def _convert_img(self, frame):
+        """Convert the frame regarding data type and color channels.
+
+        Parameters
+        ----------
+        frame : numpy.ndarray of shape (img_height, img_width, 3)
+            the image to extract the face from
+
+        Raises
+        ------
+        NotImplementedError
+            if the defined data type is not implemented
+        """
+
+        if self.input_type == 'float':
+            frame = (frame*(2**8-1)).astype(np.uint8)
+        elif self.input_type == 'uint8':
+            pass
+        else:
+            raise NotImplementedError(
+                'This input_type <<{}>> is not implemented.'.format(
+                    self.input_type))
+
+        if self.convert_rgb2bgr:
+            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+
+        return frame
 
     @staticmethod
     def get_instance(**kwargs):

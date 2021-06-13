@@ -1,2 +1,3 @@
-from .roi.facial.caffenet.caffeNetFaceDetector import CaffeNetFaceDetector
-from .roi.facial import helpers
+from .roi.caffenet.caffeNetFaceDetector import CaffeNetFaceDetector
+from .roi import helpers
+from .skin.cheref.cherefSkinDetector import CherefSkinDetector
