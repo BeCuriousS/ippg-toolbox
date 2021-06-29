@@ -11,7 +11,7 @@ import pickle
 # define necessary paths
 # base_dir = '/app/shared/data'
 print('Definition and creation of directory paths...')
-base_dir = '/home/matthieu_scherpf/repositories/GitHub/ippg-toolbox/ippgtoolbox/detection/skin/deeplab/tests/assets/tmp'
+base_dir = os.path.join(os.getcwd(), 'assets/tmp')
 src_dir = os.path.join(base_dir, 'orig/original')
 dst_dir = os.path.join(base_dir, 'orig/resized')
 loc_dir = os.path.join(base_dir, 'orig/face_detection_info')

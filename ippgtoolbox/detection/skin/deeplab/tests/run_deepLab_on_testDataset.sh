@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # read record folders
-SRC=/home/matthieu_scherpf/repositories/GitHub/ippg-toolbox/ippgtoolbox/detection/skin/deeplab/tests/assets/testDataset
-DST=/home/matthieu_scherpf/repositories/GitHub/ippg-toolbox/ippgtoolbox/detection/skin/deeplab/tests/assets/testDatasetDestination
-TMP=/home/matthieu_scherpf/repositories/GitHub/ippg-toolbox/ippgtoolbox/detection/skin/deeplab/tests/assets/tmp/segmented
-INFO=/home/matthieu_scherpf/repositories/GitHub/ippg-toolbox/ippgtoolbox/detection/skin/deeplab/tests/assets/tmp/orig/face_detection_info
+SRC=./assets/testDataset
+DST=./assets/testDatasetDestination
+TMP=./assets/tmp/segmented
+INFO=./assets/tmp/orig/face_detection_info
 
 RECORS=$(ls $SRC)
 
