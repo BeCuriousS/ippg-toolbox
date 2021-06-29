@@ -1,4 +1,4 @@
-# Instructions to tun deeplab for skin detection
+# Instructions to run deeplab for skin detection
 
 - The deeplab implementation is not easy to handle at the moment as it is based on the original repository of deeplab: https://github.com/tensorflow/models/tree/master/research/deeplab
 
@@ -6,7 +6,8 @@
 
 - Create the docker container with the dockerfile within this folder
   - ```shell´´´
-    docker build -t ippg-toolbox-deeplab
+    cd ippgtoolbox/detection/skin/deeplab
+    docker build -t ippg-toolbox-deeplab .
     ```
 - Create your own processing files for YourDataset based on BP4D+ or UBFC dataset processing:
   - _run_deepLab_on_YourDataset.sh_
@@ -22,11 +23,13 @@
   - _YourTmpPath/tmp/orig/face_detection_info_ (sub directory)
 - Download the _deeplab_model_data_:
   - ```shell´´´
+    cd ippgtoolbox/detection/skin/deeplab
     wget https://cloudstore.zih.tu-dresden.de/index.php/s/S4AoF6rWKrEGASE/download
     ```
 - Unpack the _deeplab_model_data_:
   - ```shell´´´
-    unzip download -d "ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6"
+    cd ippgtoolbox/detection/skin/deeplab
+    unzip download -d "SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6"
     ```
 
 ## File description
