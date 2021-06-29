@@ -131,8 +131,23 @@ dmypy.json
 # vscode settings data
 .vscode
 
-# FIXME revise deeplab implementation and include in toolbox
-/ippgtoolbox/detection/skin/facial/deeplab
+/ippgtoolbox/detection/skin/deeplab/SkinDetector1/*
+!/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master
+
+/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/*
+!/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom
+
+# /ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/*
+# !/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/vis_3_1*
+# !/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/segment_images.py
+
+# !/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/deeplab
+
+/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/*
+!/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/.gitkeep
+
+# Exclude proprietary code
+/ippgtoolbox/detection/skin/levelset
 
 # FIXME exclude trained deeplab models (files too largs) -> revise deeplab implementation
 # roi_detection/deepLab/code_from_misera/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/vis/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/segmentation_results
