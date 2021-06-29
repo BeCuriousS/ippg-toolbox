@@ -1,6 +1,6 @@
 # Instructions to run deeplab for skin detection
 
-- The deeplab implementation is not easy to handle at the moment as it is based on the original repository of deeplab: https://github.com/tensorflow/models/tree/master/research/deeplab
+- The deeplab implementation is not easy to use at the moment as it is based on the original repository of deeplab: https://github.com/tensorflow/models/tree/master/research/deeplab
 
 ## Steps to use this repository with your dataset
 
@@ -68,6 +68,9 @@ bash run_deepLab_on_YourDataset.sh
 
 ## Test deeplab
 
+- Do the following steps from _Steps to use this repository with your dataset_:
+  - Download the _deeplab_model_data_
+  - Unpack the _deeplab_model_data_
 - Open a terminal
 - Change working directory to _ippgtoolbox/detection/skin/deeplab/tests_
 - Run \_run_deepLab_on_testDataset.sh
