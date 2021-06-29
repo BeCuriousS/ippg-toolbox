@@ -68,9 +68,6 @@ bash run_deepLab_on_YourDataset.sh
 
 ## Test deeplab
 
-- Delete folders in _tests/assets/testDatasetDestination_ folder
-- Delete files in _tests/assets/tmp/segmented_ folder
-- Delete files in _tests/assets/tmp/segmented_orig_ folder
 - Open a terminal
 - Change working directory to _ippgtoolbox/detection/skin/deeplab/tests_
 - Run \_run_deepLab_on_testDataset.sh

@@ -10,6 +10,8 @@ RECORS=$(ls $SRC)
 
 COUNTER=$(ls $SRC | wc -l)
 
+find . -name "*.gitkeep" -type f -delete
+
 printf "Records to process: $COUNTER...\n"
 
 for f in $RECORS
