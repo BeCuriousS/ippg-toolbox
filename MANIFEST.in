@@ -1,0 +1,2 @@
+# files for the caffenet skin detector
+include ippgtoolbox/detection/roi/caffenet/rsc/*
