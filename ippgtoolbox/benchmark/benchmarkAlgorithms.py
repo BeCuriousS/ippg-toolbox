@@ -229,6 +229,16 @@ class BenchmarkAlgorithms:
 
         return np.matmul(self.rgb_seq, pa).squeeze()[:, np.newaxis]
 
+    def extract_bvp_GREEN(self):
+        """Implementation of simple green color channel extraction.
+
+        Returns
+        -------
+        numpy.ndarray of shape [n, 1] where n matches the size of the original rgb_seq
+            the blood volume pulse extracted from the rgb_seq
+        """
+        return self.rgb_seq[:, 1].squeeze()[:, np.newaxis]
+
     def extract_all(self):
         """Convenient method to allow extraction of all benchmark algorithms at once.
 
@@ -241,5 +251,6 @@ class BenchmarkAlgorithms:
         bvp_data['CHROM'] = self.extract_bvp_CHROM()
         bvp_data['POS'] = self.extract_bvp_POS()
         bvp_data['O3C'] = self.extract_bvp_O3C()
+        bvp_data['GREEN'] = self.extract_bvp_GREEN()
 
         return bvp_data
