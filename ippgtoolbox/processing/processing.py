@@ -385,7 +385,7 @@ def resample_sequence(seq,
 
     Parameters
     ----------
-    seq : 1D array like object
+    seq : 1D or 2D array like object (when 2D than first dimension must represent the channels)
         the signal values that you want to resample
     new_sample_freq : float
         the sample frequency of the returned sequence in Hz
