@@ -15,7 +15,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io import loadmat
-from benchmark import ProcessExtraction
+from ippgtoolbox.benchmark import ProcessExtraction
 
 TEST_sample_freq_ref_bp = 1000
 TEST_abs_file_path_ref_bp = os.path.join(
@@ -89,7 +89,7 @@ class TestEvaluateAlgorithms:
 if __name__ == '__main__':
 
     testEvaluateAlgorithms = TestEvaluateAlgorithms()
-    # testEvaluateAlgorithms.test_init()
+    testEvaluateAlgorithms.test_init()
     testEvaluateAlgorithms.test_compute_features_and_metrics()
 
 # %%

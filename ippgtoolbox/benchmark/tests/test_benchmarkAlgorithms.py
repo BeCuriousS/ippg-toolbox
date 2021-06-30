@@ -16,7 +16,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import loadmat
-from benchmark import BenchmarkAlgorithms
+from ippgtoolbox.benchmark import BenchmarkAlgorithms
 
 TEST_sample_freq = 30
 TEST_abs_file_path = os.path.join('./assets/ubfc_example/mean_rgb.mat')
