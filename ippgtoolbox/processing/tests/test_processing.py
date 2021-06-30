@@ -15,7 +15,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io import loadmat
-from benchmark import settings, processing
+from ippgtoolbox.processing import processing
 
 TEST_sample_freq_ref_bp = 1000
 TEST_abs_file_path_ref_bp = os.path.join(
