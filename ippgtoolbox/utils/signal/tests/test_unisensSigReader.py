@@ -11,7 +11,7 @@ Purpose: Tests for the UnisensSigReader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from utils import UnisensSigReader
+from ippgtoolbox.utils import UnisensSigReader
 import matplotlib.pyplot as plt
 
 

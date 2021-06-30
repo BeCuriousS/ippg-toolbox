@@ -11,7 +11,7 @@ Purpose: Tests for the UBFCVidReader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from utils import UBFCVidReader
+from ippgtoolbox.utils import UBFCVidReader
 import matplotlib.pyplot as plt
 
 VIDEO_PATH = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/measurements/subject1/vid.avi'

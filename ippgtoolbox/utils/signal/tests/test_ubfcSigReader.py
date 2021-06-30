@@ -11,7 +11,7 @@ Purpose: Tests for the UBFCSigReader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from utils import UBFCSigReader
+from ippgtoolbox.utils import UBFCSigReader
 import matplotlib.pyplot as plt
 
 

@@ -11,7 +11,7 @@ Purpose: Tests for the BP4DSigReader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from utils import BP4DSigReader
+from ippgtoolbox.utils import BP4DSigReader
 import matplotlib.pyplot as plt
 
 

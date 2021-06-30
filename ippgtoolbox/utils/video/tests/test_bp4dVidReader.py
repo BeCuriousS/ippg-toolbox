@@ -11,7 +11,7 @@ Purpose: Tests for the BP4DVidReader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from utils import BP4DVidReader
+from ippgtoolbox.utils import BP4DVidReader
 import matplotlib.pyplot as plt
 
 VIDEO_PATH = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/measurements/F001_T1/video'

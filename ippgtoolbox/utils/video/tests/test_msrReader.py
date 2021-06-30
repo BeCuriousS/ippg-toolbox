@@ -11,7 +11,7 @@ Purpose: Tests for the MSR2Reader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from utils import MSR2Reader
+from ippgtoolbox.utils import MSR2Reader
 import matplotlib.pyplot as plt
 
 VIDEO_PATH = '/media/fast_storage/matthieu_scherpf/2016_04_ColdStressStudy/measurements/104_S2_unisens/CamVideo_2.msr2'
