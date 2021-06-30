@@ -8,12 +8,11 @@ setuptools.setup(
     description='toolbox for imaging photoplethysmography',
     author='Matthieu Scherpf',
     author_email='Matthieu.Scherpf@tu-dresden.de',
-    packages=[
-        'ippgtoolbox/benchmark',
-        'ippgtoolbox/detection',
-        'ippgtoolbox/processing',
-        'ippgtoolbox/utils',
-    ],
+    packages=setuptools.find_packages(
+        exclude=[
+            'detection/skin/deeplab',
+        ],
+    ),
     install_requires=[
         'opencv-python',
         'numpy',
@@ -21,4 +20,6 @@ setuptools.setup(
         'matplotlib',
         'pandas',
         'ipython',
-    ])
+    ],
+    include_package_data=True,
+)

@@ -1,9 +1,9 @@
-from .video.ubfcVidReader import UBFCVidReader
-from .video.bp4dVidReader import BP4DVidReader
-from .video.msrReader import MSRReader, MSR2Reader
+from .video import UBFCVidReader
+from .video import BP4DVidReader
+from .video import MSRReader, MSR2Reader
 
-from .signal.ubfcSigReader import UBFCSigReader
-from .signal.bp4dSigReader import BP4DSigReader
-from .signal.unisensSigReader import UnisensSigReader
+from .signal import UBFCSigReader
+from .signal import BP4DSigReader
+from .signal import UnisensSigReader
 
 from .logger import Logger
