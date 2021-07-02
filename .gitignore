@@ -131,17 +131,12 @@ dmypy.json
 # vscode settings data
 .vscode
 
+# Include only relevant deeplab files
 /ippgtoolbox/detection/skin/deeplab/SkinDetector1/*
 !/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master
 
 /ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/*
 !/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom
-
-# /ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/*
-# !/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/vis_3_1*
-# !/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/segment_images.py
-
-# !/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/deeplab
 
 /ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/*
 !/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/.gitkeep
@@ -149,15 +144,5 @@ dmypy.json
 # Exclude proprietary code
 /ippgtoolbox/detection/skin/levelset
 
-# FIXME exclude trained deeplab models (files too largs) -> revise deeplab implementation
-# roi_detection/deepLab/code_from_misera/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/vis/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/segmentation_results
-
-# roi_detection/deepLab/code_from_misera/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/model.ckpt-37774.data-00000-of-00001
-
-# roi_detection/deepLab/code_from_misera/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/events.out.tfevents.1603560125.taurusml3
-
-# roi_detection/deepLab/code_from_misera/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/graph.pbtxt
-
-# roi_detection/deepLab/code_from_misera/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/model.ckpt-37774.index
-
-# roi_detection/deepLab/code_from_misera/SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6/model.ckpt-37774.meta
+# Exclude misc files
+/ippgtoolbox/detection/skin/cheref/rgb_mean_extraction.py

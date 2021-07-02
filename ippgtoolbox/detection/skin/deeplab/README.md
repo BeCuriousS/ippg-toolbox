@@ -2,7 +2,9 @@
 
 - The deeplab implementation is not easy to use at the moment as it is based on the original repository of deeplab: https://github.com/tensorflow/models/tree/master/research/deeplab
 
-## Steps to use this repository with your dataset
+## How to use
+
+### Steps to use this repository with your dataset
 
 - Create the docker container with the dockerfile within this folder
   - ```shell´´´
@@ -32,7 +34,7 @@
     unzip download -d "SkinDetector1/models-master/research_custom/deeplab/datasets/ECU_SFA_SCH_HGR/exp/train_on_train_set/train/ECU_SFA_SCH_HGR,train_rot_gaussian,VOC_trainval,14,False,0.003,0.0,41851,momentum,None,rot_gaussian,6,6"
     ```
 
-## File description
+### File description
 
 - _run_deepLab_on_YourDataset.sh_
   - Main file to start the docker container with the necessary commands
@@ -57,7 +59,7 @@
     - Create resized (512x512 pixels) images which are then used as the input for deeplab
     - The images must be saved in the temporary directory (_YourTmpPath/orig/resized_) which will then be accessed by deeplab
 
-## Run
+### Run
 
 - When adjusted the previous mentioned files you can run deeplab on your dataset executing _run_deepLab_on_YourDataset.sh_ with:
 
@@ -66,7 +68,7 @@ cd path/to/folder/run_deepLab_on_YourDataset.sh
 bash run_deepLab_on_YourDataset.sh
 ```
 
-## Test deeplab
+## How to (quick)test
 
 - Do the following steps from _Steps to use this repository with your dataset_:
   - Download the _deeplab_model_data_
