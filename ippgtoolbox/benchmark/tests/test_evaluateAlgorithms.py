@@ -64,13 +64,13 @@ class TestEvaluateAlgorithms:
         self._test_plot_seq(
             self.eA.ref_hr, 'Reference heart rate from ref hr seq')
 
-    def test_compute_features_and_metrics(self):
+    def test_compute_features(self):
         self.eA = ProcessExtraction(
             self.bp,
             ref_sample_freq=TEST_sample_freq_ref_bp,
             resample_freq=30,
         )
-        self.eA.compute_features_and_metrics(
+        self.eA.compute_features(
             self.bvp, TEST_sample_freq_bvp, 'TESTPREFIX')
         rp = self.eA.get_report()
         self._test_plot_seq(rp['ref_hr'], 'Reference heart rate')
@@ -90,6 +90,6 @@ if __name__ == '__main__':
 
     testEvaluateAlgorithms = TestEvaluateAlgorithms()
     testEvaluateAlgorithms.test_init()
-    testEvaluateAlgorithms.test_compute_features_and_metrics()
+    testEvaluateAlgorithms.test_compute_features()
 
 # %%

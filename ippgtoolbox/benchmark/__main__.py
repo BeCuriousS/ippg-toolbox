@@ -146,7 +146,7 @@ class ProcessUBFC:
         pE = ProcessExtraction(
             self.ref_seq, self.sample_freq, ref_is_hr_seq=self.ref_is_hr_seq)
         for key, value in data.items():
-            pE.compute_features_and_metrics(value, self.sample_freq, key)
+            pE.compute_features(value, self.sample_freq, key)
         self.report = pE.get_report()
         self.report['skin_color'] = np.mean(self.mean_rgb, axis=0)
         # save

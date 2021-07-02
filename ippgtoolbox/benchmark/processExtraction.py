@@ -16,12 +16,11 @@ import json
 import warnings
 
 from .benchmarkSettings import settings
-from .benchmarkMetrics import BenchmarkMetrics
-from ..processing import *
+from ippgtoolbox.processing import *
 
 
 class ProcessExtraction:
-    """Evaluator for the computation of the given metrics for a given blood volume pulse signal. Within the documentation of this class, we do not differentiate between heart and pulse rate allthough they need to be distinguished within a medical/physiological context!
+    """Evaluator for the computation of the heart rate for a given blood volume pulse signal. Within the documentation of this class, we do not differentiate between heart and pulse rate allthough they need to be distinguished within a medical/physiological context!
     """
 
     def __init__(self,
@@ -54,10 +53,10 @@ class ProcessExtraction:
         self._preprocess_reference_sequence(resample_freq)
         self._compute_reference_features()
 
-    def compute_features_and_metrics(self,
-                                     seq,
-                                     sample_freq,
-                                     dict_key_prefix=None):
+    def compute_features(self,
+                         seq,
+                         sample_freq,
+                         dict_key_prefix=None):
         seq = np.squeeze(seq)
         if self._hr_from_dom == 'freq_domain':
             handle = compute_hr_from_spectrum_max
