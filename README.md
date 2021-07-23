@@ -15,4 +15,10 @@ The toolbox consists of 4 packages:
 
 ## How to use
 
+Change directory to the repository root. Install with:
+
+```shell´´´
+    pip install ippgtoolbox
+```
+
 There are more detailed information in each package on how to use the code.
