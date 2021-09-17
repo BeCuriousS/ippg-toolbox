@@ -4,7 +4,7 @@ Created: 11.02.2021, 12:40
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
 Purpose: A collection of the most relevant signal processing used for the extraction of parameters of the remotely acquired photoplethysmogram (rPPG; also called imaging photoplethysmogram - iPPG). No differentiation between heart rate and pulse rate allthough it must be distinguished within a medical/physiological context.

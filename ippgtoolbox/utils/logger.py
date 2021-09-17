@@ -4,7 +4,7 @@ Created: 22.02.2021, 09:20
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
 Purpose: Custom logger class for logging events.

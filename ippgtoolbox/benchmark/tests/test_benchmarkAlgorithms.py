@@ -4,7 +4,7 @@ Created: 06.02.2021, 13:04
 ------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 ------------------------------------------------------------------------------
 Purpose: Tests the implementation of the standard algorithms used as benchmark.

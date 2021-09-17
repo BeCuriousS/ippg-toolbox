@@ -4,7 +4,7 @@ Created: 26.03.2021, 10:46
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
 Purpose: Tests the cherefSkinDetector implementation by visual inspection.

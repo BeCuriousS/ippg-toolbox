@@ -4,7 +4,7 @@ Created: 21.02.2021, 12:09
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
 Purpose: Tests the CaffeNetFaceDetector class based on a visual analysis.

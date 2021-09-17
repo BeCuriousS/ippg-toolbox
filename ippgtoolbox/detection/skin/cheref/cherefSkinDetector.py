@@ -4,7 +4,7 @@ Created: 26.03.2021, 09:46
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
 Purpose: Implementation of the threshold based skin detection introduced in:

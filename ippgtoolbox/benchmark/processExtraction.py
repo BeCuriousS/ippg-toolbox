@@ -4,7 +4,7 @@ Created: 10.02.2021, 18:23
  -----------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
  -----------------------------------------------------------------------------
 Purpose: Compute the features like heart rate etc. for a given extracted sequence.

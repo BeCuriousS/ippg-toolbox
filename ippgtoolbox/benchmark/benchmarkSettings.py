@@ -4,7 +4,7 @@ Created: 06.02.2021, 22:05
 ------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 ------------------------------------------------------------------------------
 Purpose: Basic configuration for the benchmarks (freq. bounds etc.)

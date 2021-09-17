@@ -4,7 +4,7 @@ Created: 21.02.2021, 18:39
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
 Purpose: Video reader implemented for the UBFC database. It is based on the standard reader class of openCV (cv2.Videoreader).

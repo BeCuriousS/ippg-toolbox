@@ -4,7 +4,7 @@ Created: 10.02.2021, 18:47
  -----------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
  -----------------------------------------------------------------------------
 Purpose: Execute to run the full benchmark and create a pandas dataframe to

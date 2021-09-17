@@ -4,7 +4,7 @@ Created: 12.02.2021, 11:34
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
 Purpose: Implementation of the relevant metrics to evaluate a given physiological signal, i.e. comparison to some reference.

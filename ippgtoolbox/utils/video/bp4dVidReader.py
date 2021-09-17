@@ -4,7 +4,7 @@ Created: 21.02.2021, 18:39
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
-Website: https://becuriouss.github.io/matthieuscherpf/
+Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
 Purpose: Video reader implemented for the BP4D+ database. It expects a video to be split in frames that lie in a directory.
