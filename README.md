@@ -21,4 +21,4 @@ Change directory to the repository root. Install with:
     pip install ippgtoolbox
 ```
 
-There are more detailed information in each package on how to use the code.
+There are more detailed information on how to use the code in each package.
