@@ -217,7 +217,7 @@ class BenchmarkAlgorithms:
     def extract_bvp_O3C(self):
         """Implementation of the optimal color channel combination based blood volume pulse extraction introduced by Ernst et al. in:
 
-        # TODO Add the related official publication as soon as it is available
+        Ernst, Hannes; Scherpf, Matthieu; Malberg, Hagen; Schmidt, Martin (2021): Optimal color channel combination across skin tones for remote heart rate measurement in camera-based photoplethysmography. In: Biomedical Signal Processing and Control 68, S. 102644. DOI: 10.1016/j.bspc.2021.102644.
 
         Returns
         -------
