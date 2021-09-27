@@ -20,13 +20,20 @@ class BenchmarkAlgorithms:
     """Selection of different state of the art algorithms for comparison. The color distortion filtering from Wang et al. is also implemented (see method description for further information).
     """
 
-    def __init__(self, rgb_seq, sample_freq, apply_cdf=False, normalize=False):
+    def __init__(self,
+                 rgb_seq,
+                 ts_seq,
+                 sample_freq,
+                 apply_cdf=False,
+                 normalize=False):
         """Use this class to evaluate any [R,G,B]-sequence extracted from the mean of any region of interest with the here implemented standard algorithms.
 
         Parameters
         ----------
-        rgb_seq : numpy.ndarray with shape [n, 3] where n is the number of sample points
-            the color channel wise mean of any region of interest of some video recording
+        rgb_seq : numpy.ndarray with shape [n, 3] where n is the number of
+            sample points of the color channel wise mean of any region of interest of some video recording
+        ts_seq : numpy.ndarray with shape [n, 1] where n is the number of
+            sample points. The timestamps must be given as for some algorithms border effects can occur which can be tracked using timestamps
         sample_freq : float
             the sample frequency of the rgb_seq, i.e. the recorded video (equal to frames per second)
         apply_cdf : bool, optional
@@ -45,6 +52,7 @@ class BenchmarkAlgorithms:
             INTERVAL_COLOR_DISTORTION_FILTERING_SEC()
         self._cdf_olap = settings.\
             INTERVAL_OVERLAP_COLOR_DISTORTION_FILTERING_PERC()
+        self._resp_borders = settings.RESPECT_BORDER_EFFECTS()
         self._filt_o = settings.FILTER_ORDER()
 
         self.sample_freq = sample_freq
@@ -52,6 +60,7 @@ class BenchmarkAlgorithms:
         self.normalize = normalize
 
         self.rgb_seq = self._preprocess(rgb_seq)
+        self.ts_seq = ts_seq
 
     def _preprocess(self, rgb_seq):
         if self._cdf_len == 'max':
@@ -121,8 +130,8 @@ class BenchmarkAlgorithms:
 
         Returns
         -------
-        numpy.ndarray of shape [n, 1] where n not necessarily matches the size of the original rgb_seq due to conditions regarding the sample frequency and the interval size
-            the blood volume pulse extracted from the rgb_seq
+        dict with two elements where the first one represents the blood volume pulse extracted from the rgb_seq and the second one represents the corresponding timestamps. The blood volume pulse signal not necessarily matches the size of the original rgb_seq due to conditions regarding the sample frequency and the interval size
+
         """
         tmp_norm_n_frames = int(np.ceil(self.sample_freq * self._tmp_norm_len))
         if tmp_norm_n_frames % 2 > 0:
@@ -137,6 +146,7 @@ class BenchmarkAlgorithms:
         w_hann = np.hanning(tmp_norm_n_frames)
         segments = []
         c = self.rgb_seq.copy()
+        ts = self.ts_seq.copy()
         # loop over overlapping windows
         i_start = 0
         i_end = i_start + tmp_norm_n_frames
@@ -170,12 +180,14 @@ class BenchmarkAlgorithms:
         h = np.zeros((1, h_length))
         for i_start, i_end, s in segments:
             h[0, i_start:i_end] += s
-        # adjust length
-        h = interpolate.interp1d(
-            np.arange(0, h.shape[1]), h.squeeze(), fill_value='extrapolate')(
-                np.arange(0, self.rgb_seq.shape[0]))
+        ts = ts[0:i_end]
 
-        return h.squeeze()[:, np.newaxis]
+        # check for border effects
+        if self._resp_borders:
+            h = h[0, tmp_norm_n_frames//2:-tmp_norm_n_frames//2+1]
+            ts = ts[tmp_norm_n_frames//2:-tmp_norm_n_frames//2+1]
+
+        return {'CHROM': h.squeeze()[:, np.newaxis], 'timestamps': ts}
 
     def extract_bvp_POS(self):
         """Implementation of plane-orthogonal-to-skin based blood volume pulse extraction introduced by Wang et al. in:
@@ -184,8 +196,7 @@ class BenchmarkAlgorithms:
 
         Returns
         -------
-        numpy.ndarray of shape [n, 1] where n matches the size of the original rgb_seq
-            the blood volume pulse extracted from the rgb_seq
+        dict with two elements where the first one represents the blood volume pulse extracted from the rgb_seq and the second one represents the corresponding timestamps. The blood volume pulse signal not necessarily matches the size of the original rgb_seq due to conditions regarding the sample frequency and the interval size
         """
         tmp_norm_n_frames = int(np.ceil(self.sample_freq * self._tmp_norm_len))
         # projection matrix used by POS
@@ -197,6 +208,7 @@ class BenchmarkAlgorithms:
         n = self.rgb_seq.shape[0]  # number of sample points, i.e. frames
         h = np.zeros((1, n))
         c = self.rgb_seq.copy()
+        ts = self.ts_seq.copy()
         # loop over overlapping windows
         for i in range(n):
             m = i - tmp_norm_n_frames
@@ -212,7 +224,12 @@ class BenchmarkAlgorithms:
                 # overlap-adding
                 h[0, m:i] = h[0, m:i] + (hi - hi.mean())
 
-        return h.squeeze()[:, np.newaxis]
+        # check for border effects
+        if self._resp_borders:
+            h = h[0, tmp_norm_n_frames:-tmp_norm_n_frames+1]
+            ts = ts[tmp_norm_n_frames:-tmp_norm_n_frames+1]
+
+        return {'POS': h.squeeze()[:, np.newaxis], 'timestamps': ts}
 
     def extract_bvp_O3C(self):
         """Implementation of the optimal color channel combination based blood volume pulse extraction introduced by Ernst et al. in:
@@ -221,23 +238,21 @@ class BenchmarkAlgorithms:
 
         Returns
         -------
-        numpy.ndarray of shape [n, 1] where n matches the size of the original rgb_seq
-            the blood volume pulse extracted from the rgb_seq
+        dict with two elements where the first one represents the blood volume pulse extracted from the rgb_seq and the second one represents the corresponding timestamps
         """
         # projection axis used by O3C
         pa = np.array([0.25, -0.83, 0.5])
 
-        return np.matmul(self.rgb_seq, pa).squeeze()[:, np.newaxis]
+        return {'O3C': np.matmul(self.rgb_seq, pa).squeeze()[:, np.newaxis], 'timestamps': self.ts_seq}
 
     def extract_bvp_GREEN(self):
         """Implementation of simple green color channel extraction.
 
         Returns
         -------
-        numpy.ndarray of shape [n, 1] where n matches the size of the original rgb_seq
-            the blood volume pulse extracted from the rgb_seq
+        dict with two elements where the first one represents the blood volume pulse extracted from the rgb_seq and the second one represents the corresponding timestamps
         """
-        return self.rgb_seq[:, 1].squeeze()[:, np.newaxis]
+        return {'GREEN': self.rgb_seq[:, 1].squeeze()[:, np.newaxis], 'timestamps': self.ts_seq}
 
     def extract_all(self):
         """Convenient method to allow extraction of all benchmark algorithms at once.

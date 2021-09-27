@@ -379,8 +379,7 @@ def resample_sequence(seq,
                       new_sample_freq,
                       sample_freq=None,
                       seq_ts=None,
-                      is_datetime=False,
-                      verbose=False):
+                      is_datetime=False):
     """Resample a given signal to a new sampling frequency. Note that the timestamps are expected to be either in datetime format or in float (as microseconds!).
 
     Parameters
@@ -395,13 +394,11 @@ def resample_sequence(seq,
         the corresponding timestamps of the given sequence; can be timestamps or floats (representing microseconds); either seq_ts or sample_freq must be given, by default None
     is_datetime : bool, optional
         indicate if the seq_ts is given as sequence of datetime or floats, by default False
-    verbose : bool, optional
-        if the computed interpolation function should also be returned, by default False
 
     Returns
     -------
-    numpy.ndarray
-        the resampled input sequence
+    dict
+        dictionary with keys: seq_interp, ts_interp, interp_func
     """
     if (sample_freq is None and seq_ts is None) or \
        (sample_freq is not None and seq_ts is not None):
@@ -418,8 +415,8 @@ def resample_sequence(seq,
 
     period = 1e6/new_sample_freq
     seq_ts_new = np.arange(seq_ts[0], seq_ts[-1], period)
-    interp_func = interpolate.interp1d(seq_ts, seq)
+    interp_func = interpolate.interp1d(seq_ts.squeeze(), seq)
 
-    if verbose:
-        return interp_func(seq_ts_new), {'interp_func': interp_func}
-    return interp_func(seq_ts_new)
+    return {'seq_interp': interp_func(seq_ts_new),
+            'ts_interp': seq_ts_new,
+            'interp_func': interp_func}

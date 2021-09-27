@@ -99,56 +99,75 @@ class ProcessUBFC:
         ref_data = np.loadtxt(os.path.join(
             self.db_dir, self.record_name, 'ground_truth.txt'))
         ref_seq = ref_data[0, :]
-        self.ref_ts = ref_data[2, :] * 1e6  # to micros
-        self.ref_seq = processing.resample_sequence(
-            ref_seq, self.sample_freq, seq_ts=self.ref_ts)
+        ref_ts = ref_data[2, :] * 1e6  # to micros
+        tmp = processing.resample_sequence(
+            ref_seq, self.sample_freq, seq_ts=ref_ts)
+        self.ref_ts = tmp['ts_interp']
+        self.ref_seq = tmp['seq_interp']
 
     def _read_extracted(self):
-        mean_rgb = loadmat(os.path.join(
+        data = loadmat(os.path.join(
             self.mean_rgb_dir, self.record_name, 'mean_rgb.mat'))
-        mean_rgb = mean_rgb['mean_rgb']
+        mean_rgb_ts = data['timestamps']
+        mean_rgb_seq = data['mean_rgb']
         # resample with timestamps to compensate possible unsteady fps (each recorded frame corresponds to one ppg sample point and timestamp)
-        mean_rgb_interp = []
-        for i in range(mean_rgb.shape[1]):
-            mean_rgb_interp.append(processing.resample_sequence(
-                mean_rgb[:, i], self.sample_freq, seq_ts=self.ref_ts))
-        self.mean_rgb = np.transpose(np.asarray(mean_rgb_interp))
+        mean_rgb_seq_interp = []
+        for i in range(mean_rgb_seq.shape[1]):
+            tmp = processing.resample_sequence(
+                mean_rgb_seq[:, i], self.sample_freq, seq_ts=mean_rgb_ts)
+            mean_rgb_seq_interp.append(tmp['seq_interp'])
+        self.mean_rgb_ts = tmp['ts_interp']
+        self.mean_rgb_seq = np.transpose(np.asarray(mean_rgb_seq_interp))
 
     def _compute_benchmark_algorithms(self):
         bA = BenchmarkAlgorithms(
-            self.mean_rgb, self.sample_freq, apply_cdf=self.use_cdf)
+            self.mean_rgb_seq,
+            self.mean_rgb_ts,
+            self.sample_freq,
+            apply_cdf=self.use_cdf)
         bvp_data = bA.extract_all()
         # save
         for key, val in bvp_data.items():
             savemat(os.path.join(
-                self.full_dst_dir, 'bvp_{}.mat'.format(key)), {key: val})
+                self.full_dst_dir, 'bvp_{}.mat'.format(key)), val)
 
     def _process_extraction(self):
         # iterate over all available sequences (those that have not just been created as well)
         data = {}
-        min_length = np.inf
         for fn in os.listdir(self.full_dst_dir):
             if fn.startswith('bvp_'):
-                bvp = loadmat(os.path.join(self.dst_dir, self.record_name, fn))
+                tmp = loadmat(os.path.join(
+                    self.dst_dir, self.record_name, fn))
                 name = fn[fn.find('_')+1:fn.find('.')]
                 if 'DeepPerfusion' in name:
-                    bvp[name] = np.squeeze(bvp[name])
-                    bvp[name] = processing.resample_sequence(
-                        bvp[name], 30, sample_freq=25)
-                data[name] = bvp[name]
-                if len(bvp[name]) < min_length:
-                    min_length = len(bvp[name])
-        # adjust to equal number of values (due to windowing there can occur small variations)
+                    # bvp[name] = np.squeeze(bvp[name])
+                    # bvp[name] = processing.resample_sequence(
+                    #     bvp[name], 30, sample_freq=25)
+                    continue
+                data[name] = {}
+                data[name][name] = tmp[name].squeeze()
+                data[name]['timestamps'] = tmp['timestamps'].squeeze()
+        # adjust to equal number of values (due to windowing there can occur small variations). It is assumed that all signals interpolated to an equal sample frequency
+        ts_max = np.inf
+        ts_min = -1
         for key, val in data.items():
-            data[key] = val[:min_length]
-        self.ref_seq = self.ref_seq[:min_length]
+            if ts_max > val['timestamps'][-1]:
+                ts_max = val['timestamps'][-1].copy()
+            if ts_min < val['timestamps'][0]:
+                ts_min = val['timestamps'][0].copy()
+        for key, val in data.items():
+            indexes = np.logical_and(
+                val['timestamps'] >= ts_min, val['timestamps'] <= ts_max)
+            data[key][key] = val[key][indexes]
+        indexes = np.logical_and(self.ref_ts >= ts_min, self.ref_ts <= ts_max)
+        self.ref_seq = self.ref_seq[indexes]
         # compute
         pE = ProcessExtraction(
             self.ref_seq, self.sample_freq, ref_is_hr_seq=self.ref_is_hr_seq)
-        for key, value in data.items():
-            pE.compute_features(value, self.sample_freq, key)
+        for key, val in data.items():
+            pE.compute_features(val[key], self.sample_freq, key)
         self.report = pE.get_report()
-        self.report['skin_color'] = np.mean(self.mean_rgb, axis=0)
+        self.report['skin_color'] = np.mean(self.mean_rgb_seq, axis=0)
         # save
         savemat(os.path.join(
             self.full_dst_dir, 'process_report.mat'), self.report)
@@ -209,19 +228,22 @@ class ProcessBP4D(ProcessUBFC):
         #     self.db_dir, self.record_name, 'signals', 'BP_mmHg.txt'))
         ref_seq = np.loadtxt(os.path.join(
             self.db_dir, self.record_name, 'signals', 'Pulse Rate_BPM.txt'))
-        self.ref_seq = processing.resample_sequence(
+        tmp = processing.resample_sequence(
             ref_seq, self.sample_freq, sample_freq=1000)
+        self.ref_ts = tmp['ts_interp']
+        self.ref_seq = tmp['seq_interp']
 
     def _read_extracted(self):
-        mean_rgb = loadmat(os.path.join(
+        data = loadmat(os.path.join(
             self.mean_rgb_dir, self.record_name, 'mean_rgb.mat'))
-        self.mean_rgb = mean_rgb['mean_rgb']
+        self.mean_rgb_ts = data['timestamps']
+        self.mean_rgb_seq = data['mean_rgb']
 
 
 if __name__ == '__main__':
 
-    df_dir_ubfc = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/processing/sensors_2021_ms/evaluation'
-    ProcessUBFC(df_dir_ubfc)
+    # df_dir_ubfc = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/processing/sensors_2021_ms/evaluation'
+    # ProcessUBFC(df_dir_ubfc)
 
-    # df_dir_bp4d = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/evaluation'
-    # ProcessBP4D(df_dir_bp4d)
+    df_dir_bp4d = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/evaluation'
+    ProcessBP4D(df_dir_bp4d)

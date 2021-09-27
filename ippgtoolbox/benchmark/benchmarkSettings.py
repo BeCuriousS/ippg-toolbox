@@ -162,6 +162,16 @@ class BenchmarkSettings:
         """
         return overwrite or False
 
+    def RESPECT_BORDER_EFFECTS(self, overwrite=None):
+        """If border effects should be respected by cutting the signal, i.e. for CHROM or POS.
+
+        Parameters
+        ----------
+        overwrite : boolean, optional
+            if border effects should be respected or not, by default None
+        """
+        return overwrite or False
+
     def FILTER_ORDER(self, overwrite=None):
         """Order of the butterworth filter that is used. Consider that the filtering is done using zero-phase filtering which means the filtering is done in both directions of the signal. Therefore, the resulting filter order is the double. When using the (butterworth) 'bandpass' filter option the filter order is as well the double. Therefore, when using 'bandpass' filter the resulting filter order is 4 times larger than specified here.
 

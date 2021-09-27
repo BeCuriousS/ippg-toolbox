@@ -16,7 +16,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import loadmat
-from ippgtoolbox.benchmark import BenchmarkAlgorithms
+from ippgtoolbox.benchmark import BenchmarkAlgorithms, settings
 
 TEST_sample_freq = 30
 TEST_abs_file_path = os.path.join('./assets/ubfc_example/mean_rgb.mat')
@@ -28,50 +28,66 @@ plt.rc('lines', linewidth=0.2)
 class TestBenchmarkAlgorithms:
 
     def __init__(self):
-        self.rgb_seq = loadmat(TEST_abs_file_path)['mean_rgb']
+        data = loadmat(TEST_abs_file_path)
+        self.rgb_seq = data['mean_rgb']
+        self.ts_seq = data['timestamps']
         self.ba = BenchmarkAlgorithms(
-            self.rgb_seq, TEST_sample_freq)
+            self.rgb_seq, self.ts_seq, TEST_sample_freq)
         self._test_plot('RGB mean from ROI')
 
     def test_filter_color_distortions(self):
         self.ba = BenchmarkAlgorithms(
-            self.rgb_seq, TEST_sample_freq, apply_cdf=True)
+            self.rgb_seq, self.ts_seq, TEST_sample_freq, apply_cdf=True)
         self._test_plot('RGB mean with CDF')
 
     def test_normalization(self):
         self.ba = BenchmarkAlgorithms(
-            self.rgb_seq, TEST_sample_freq, normalize=True)
+            self.rgb_seq, self.ts_seq, TEST_sample_freq, normalize=True)
         self._test_plot('RGB mean with normalization')
 
     def test_extract_bvp_CHROM(self):
-        self.ba = BenchmarkAlgorithms(self.rgb_seq, TEST_sample_freq)
+        self.ba = BenchmarkAlgorithms(
+            self.rgb_seq, self.ts_seq, TEST_sample_freq)
         bvp = self.ba.extract_bvp_CHROM()
         self._test_plot_bvp(bvp, 'BVP CHROM')
         self.ba = BenchmarkAlgorithms(
-            self.rgb_seq, TEST_sample_freq, apply_cdf=True)
+            self.rgb_seq, self.ts_seq, TEST_sample_freq, apply_cdf=True)
         bvp = self.ba.extract_bvp_CHROM()
         self._test_plot_bvp(bvp, 'BVP CHROM with CDF')
+        self.ba = BenchmarkAlgorithms(
+            self.rgb_seq, self.ts_seq, TEST_sample_freq)
+        self.ba._resp_borders = settings.RESPECT_BORDER_EFFECTS(True)
+        bvp = self.ba.extract_bvp_CHROM()
+        self._test_plot_bvp(bvp, 'BVP CHROM with respected border effects')
 
     def test_extract_bvp_POS(self):
-        self.ba = BenchmarkAlgorithms(self.rgb_seq, TEST_sample_freq)
+        self.ba = BenchmarkAlgorithms(
+            self.rgb_seq, self.ts_seq, TEST_sample_freq)
         bvp = self.ba.extract_bvp_POS()
         self._test_plot_bvp(bvp, 'BVP POS')
         self.ba = BenchmarkAlgorithms(
-            self.rgb_seq, TEST_sample_freq, apply_cdf=True)
+            self.rgb_seq, self.ts_seq, TEST_sample_freq, apply_cdf=True)
         bvp = self.ba.extract_bvp_POS()
         self._test_plot_bvp(bvp, 'BVP POS with CDF')
+        self.ba = BenchmarkAlgorithms(
+            self.rgb_seq, self.ts_seq, TEST_sample_freq)
+        self.ba._resp_borders = settings.RESPECT_BORDER_EFFECTS(True)
+        bvp = self.ba.extract_bvp_POS()
+        self._test_plot_bvp(bvp, 'BVP POS with respected border effects')
 
     def test_extract_bvp_O3C(self):
-        self.ba = BenchmarkAlgorithms(self.rgb_seq, TEST_sample_freq)
+        self.ba = BenchmarkAlgorithms(
+            self.rgb_seq, self.ts_seq, TEST_sample_freq)
         bvp = self.ba.extract_bvp_O3C()
         self._test_plot_bvp(bvp, 'BVP O3C')
         self.ba = BenchmarkAlgorithms(
-            self.rgb_seq, TEST_sample_freq, apply_cdf=True)
+            self.rgb_seq, self.ts_seq, TEST_sample_freq, apply_cdf=True)
         bvp = self.ba.extract_bvp_O3C()
         self._test_plot_bvp(bvp, 'BVP O3C with CDF')
 
     def test_extract_all(self):
-        self.ba = BenchmarkAlgorithms(self.rgb_seq, TEST_sample_freq)
+        self.ba = BenchmarkAlgorithms(
+            self.rgb_seq, self.ts_seq, TEST_sample_freq)
         self.all = self.ba.extract_all()
 
     def _test_plot(self, title):
@@ -84,7 +100,7 @@ class TestBenchmarkAlgorithms:
     def _test_plot_bvp(self, bvp, title):
         plt.figure()
         plt.title(title)
-        plt.plot(bvp)
+        plt.plot(bvp['timestamps'], bvp[list(bvp.keys())[0]])
 
 
 if __name__ == '__main__':
