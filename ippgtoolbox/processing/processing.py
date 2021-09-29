@@ -406,6 +406,7 @@ def resample_sequence(seq,
 
     seq = np.squeeze(seq)
     if seq_ts is not None:
+        seq_ts = np.squeeze(seq_ts)
         if is_datetime:
             # convert timestamps to floats
             seq_ts = np.asarray([(ts/timedelta(microseconds=1))

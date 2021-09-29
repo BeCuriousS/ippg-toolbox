@@ -111,6 +111,7 @@ class ProcessUBFC:
         mean_rgb_ts = data['timestamps']
         mean_rgb_seq = data['mean_rgb']
         # resample with timestamps to compensate possible unsteady fps (each recorded frame corresponds to one ppg sample point and timestamp)
+        # mean rgb sequence
         mean_rgb_seq_interp = []
         for i in range(mean_rgb_seq.shape[1]):
             tmp = processing.resample_sequence(
@@ -139,11 +140,11 @@ class ProcessUBFC:
                 tmp = loadmat(os.path.join(
                     self.dst_dir, self.record_name, fn))
                 name = fn[fn.find('_')+1:fn.find('.')]
-                if 'DeepPerfusion' in name:
-                    # bvp[name] = np.squeeze(bvp[name])
-                    # bvp[name] = processing.resample_sequence(
-                    #     bvp[name], 30, sample_freq=25)
-                    continue
+                # if 'DeepPerfusion' in name:
+                #     tmp = processing.resample_sequence(
+                #         tmp[name], self.sample_freq, seq_ts=tmp['timestamps'])
+                #     tmp = {name: tmp['seq_interp'],
+                #            'timestamps': tmp['ts_interp']}
                 data[name] = {}
                 data[name][name] = tmp[name].squeeze()
                 data[name]['timestamps'] = tmp['timestamps'].squeeze()
@@ -155,6 +156,16 @@ class ProcessUBFC:
                 ts_max = val['timestamps'][-1].copy()
             if ts_min < val['timestamps'][0]:
                 ts_min = val['timestamps'][0].copy()
+        timestamps_new = np.arange(ts_min, ts_max, 1/self.sample_freq * 1e6)
+        data_new = {}
+        for key, val in data.items():
+            tmp = processing.resample_sequence(
+                val[key], self.sample_freq, seq_ts=val['timestamps'])
+            data_new[key] = {}
+            data_new[key][key] = tmp['interp_func'](timestamps_new)
+            data_new[key]['timestamps'] = timestamps_new
+        data = data_new
+
         for key, val in data.items():
             indexes = np.logical_and(
                 val['timestamps'] >= ts_min, val['timestamps'] <= ts_max)
@@ -242,8 +253,8 @@ class ProcessBP4D(ProcessUBFC):
 
 if __name__ == '__main__':
 
-    # df_dir_ubfc = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/processing/sensors_2021_ms/evaluation'
-    # ProcessUBFC(df_dir_ubfc)
+    df_dir_ubfc = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/processing/sensors_2021_ms/evaluation'
+    ProcessUBFC(df_dir_ubfc)
 
-    df_dir_bp4d = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/evaluation'
-    ProcessBP4D(df_dir_bp4d)
+    # df_dir_bp4d = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/evaluation'
+    # ProcessBP4D(df_dir_bp4d)
