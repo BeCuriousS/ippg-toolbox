@@ -1,3 +1,6 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+
 # ippgtoolbox: What is it
 
 A toolbox providing functionality for extracting and processing of the blood volume pulse (BVP), also called imaging photoplethysmogram (iPPG) signals. If you use this toolbox in your work please cite the following publication:
@@ -15,7 +18,8 @@ The toolbox consists of 4 packages:
 
 ## How to use
 
-Change directory to the repository root. Install with:
+- Clone repository.
+- Change directory to the repository root. Install with:
 
 ```shell´´´
     pip install ippgtoolbox
