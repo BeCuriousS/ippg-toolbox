@@ -128,7 +128,7 @@ class BenchmarkSettings:
         overwrite : float, optional
             representing seconds; the length of the interval used for performing the temporal normalization, by default None
         """
-        return overwrite or 2.
+        return overwrite or 1.6
 
     def INTERVAL_COLOR_DISTORTION_FILTERING_SEC(self, overwrite=None):
         """Interval size in seconds to use for performing the color distortion filtering. 'max' means the whole signal will be used. Results from Wang et al. implicitly indicate: the longer the better:

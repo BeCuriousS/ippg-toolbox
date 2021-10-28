@@ -140,11 +140,6 @@ class ProcessUBFC:
                 tmp = loadmat(os.path.join(
                     self.dst_dir, self.record_name, fn))
                 name = fn[fn.find('_')+1:fn.find('.')]
-                # if 'DeepPerfusion' in name:
-                #     tmp = processing.resample_sequence(
-                #         tmp[name], self.sample_freq, seq_ts=tmp['timestamps'])
-                #     tmp = {name: tmp['seq_interp'],
-                #            'timestamps': tmp['ts_interp']}
                 data[name] = {}
                 data[name][name] = tmp[name].squeeze()
                 data[name]['timestamps'] = tmp['timestamps'].squeeze()
@@ -256,5 +251,5 @@ if __name__ == '__main__':
     df_dir_ubfc = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/processing/sensors_2021_ms/evaluation'
     ProcessUBFC(df_dir_ubfc)
 
-    # df_dir_bp4d = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/evaluation'
-    # ProcessBP4D(df_dir_bp4d)
+    df_dir_bp4d = '/media/fast_storage/matthieu_scherpf/2019_06_26_BP4D+_v0.2/processing/sensors_2021_ms/evaluation'
+    ProcessBP4D(df_dir_bp4d)

@@ -19,7 +19,7 @@ printf "Running deepLab on files in temporary space...\n"
 docker run \
     -u $(id -u):$(id -g) \
     -v /media/fast_storage/matthieu_scherpf/tmp:/app/shared/data \
-    -v /home/matthieu_scherpf/repositories/GitHub/ippg-toolbox/ippgtoolbox/detection/skin/deeplab:/app/shared/deepLab \
+    -v /home/matthieu_scherpf/repositories/GitHub/ippg-toolbox/ippgtoolbox/detection/skin/deeplab:/app/shared/deeplab \
     -p 5000:80 \
     -p 0.0.0.0:6006:6006 \
     --gpus all \
