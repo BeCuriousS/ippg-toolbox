@@ -107,6 +107,7 @@ class ProcessExtraction:
         if resample_freq is not None:
             self.ref_seq = resample_sequence(
                 self.ref_seq, resample_freq, self.ref_sample_freq)
+            self.ref_seq = self.ref_seq['seq_interp']
             self.ref_sample_freq = resample_freq
         self.report['ref_seq'] = self.ref_seq
         self.report['ref_sample_freq'] = self.ref_sample_freq

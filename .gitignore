@@ -131,6 +131,11 @@ dmypy.json
 # vscode settings data
 .vscode
 
+# exclude experimental
+/ippgtoolbox/experimental
+/ippgtoolbox/detection/skin/deeplab/*Paula_Wilhelm*
+/ippgtoolbox/detection/skin/deeplab/*MirrorTest*
+
 # Include only relevant deeplab files
 /ippgtoolbox/detection/skin/deeplab/SkinDetector1/*
 !/ippgtoolbox/detection/skin/deeplab/SkinDetector1/models-master
