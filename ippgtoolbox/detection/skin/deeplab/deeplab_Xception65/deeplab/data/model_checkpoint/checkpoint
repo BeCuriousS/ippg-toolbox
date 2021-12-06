@@ -1,0 +1,2 @@
+model_checkpoint_path: "/app/shared/deeplab/deeplab/data/model_checkpoint/model.ckpt-37774"
+all_model_checkpoint_paths: "/app/shared/deeplab/deeplab/data/model_checkpoint/model.ckpt-37774"
