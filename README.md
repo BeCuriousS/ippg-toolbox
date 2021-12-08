@@ -2,7 +2,7 @@
 
 A toolbox providing functionality for extracting and processing of the blood volume pulse (BVP), also called imaging photoplethysmogram (iPPG) signals. If you use this toolbox in your work please cite the following publication:
 
-- tba
+> tba
 
 ## What is implemented
 
