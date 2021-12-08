@@ -57,7 +57,6 @@ def process_dataset(record_path,
     
     image_list = [] # list with all image names
     for i, image_path in progress(enumerate(original_files)):
-        progress.update(i)
         dst_fname = image_path.split('/')[-1].replace(img_type, '.png')
         # transform original files to the input size for deeplab
         img = cv2.imread(image_path)
