@@ -24,5 +24,5 @@ python3 "${WORK_DIR}"/vis.py \
     --dataset_dir="${DATASET}" \
     --max_number_of_iterations=1 \
     --dataset="IPPGTOOLBOX" \
-    --save_softmax_probabilities=$1 \
+    --save_softmax_probabilities=True \
     --also_save_raw_predictions=False

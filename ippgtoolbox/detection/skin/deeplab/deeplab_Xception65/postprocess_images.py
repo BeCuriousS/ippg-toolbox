@@ -19,7 +19,7 @@ import shutil
 import progressbar
 import io
 
-def process_dataset(record_path, resized_path, output_res):
+def process_dataset(record_path, output_res):
 
     original_files = []
     for root, dirs, files in os.walk(record_path):
@@ -50,28 +50,23 @@ def process_dataset(record_path, resized_path, output_res):
         dst_fname = image_path.split('/')[-1].replace(img_type, '.png')
         # transform original files to the input size for deeplab
         img = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
-        if is_binary:
-            img = cv2.resize(
-                img, dsize=output_res, interpolation=cv2.INTER_NEAREST)
-        else:
-            img = cv2.resize(
-                img, dsize=output_res, interpolation=cv2.INTER_LINEAR)
-        new_full_fname = os.path.join(resized_path, dst_fname)
-        cv2.imwrite(new_full_fname, img)
+        img = cv2.resize(
+            img, dsize=output_res, interpolation=cv2.INTER_LINEAR)
+        if th is not None:
+            img = img >= th * 255
+            img = img*255
+        cv2.imwrite(image_path, img.astype(np.uint8))
 
     print('Finished rescaling.')
 
-
+def none_or_float(value):
+    if value == 'None':
+        return None
+    return float(value) # if value is a string (representing a float)
 
 if __name__ == "__main__":
-    segm_path=os.path.join('/app/shared/segmentation', 'segmentation_results')
+    segm_path='/app/shared/segmentation'
     output_res=tuple([int(x) for x in sys.argv[1].split('x')])
-    is_binary=(sys.argv[2]=='False')
-    
-    resized_path = os.path.join(
-        '/app/shared/segmentation', 'segmentation_results_resized')
+    th=none_or_float(sys.argv[2])
 
-    # # create necessary paths
-    Path(resized_path).mkdir(parents=True, exist_ok=True)
-
-    process_dataset(segm_path, resized_path, output_res)
+    process_dataset(segm_path, output_res)

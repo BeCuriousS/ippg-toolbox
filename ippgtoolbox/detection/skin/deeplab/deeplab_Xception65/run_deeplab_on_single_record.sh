@@ -1,19 +1,23 @@
 #!/bin/bash
+
 # read flags and define vars
-while getopts s:d:r:p:k: flag
-do
+while getopts s:d:r:t: flag; do
     case "${flag}" in
-        # absolute path within conatiner
-        s) src_dir=${OPTARG};;
-        # absolute path within conatiner
-        d) dst_dir=${OPTARG};;
-        # Auflösung der Originalbilder in BreitexHöhe
-        r) resol=${OPTARG};;
-        # Ausgabe von Wahrscheinlichkeiten oder MaskenTrue/False
-        p) output_probas=${OPTARG};;
-        k) keep_orig_seg_results=${OPTARG};; # True/False
+    # absolute path within conatiner
+    s) src_dir=${OPTARG} ;;
+    # absolute path within conatiner
+    d) dst_dir=${OPTARG} ;;
+    # Auflösung der Originalbilder in BreitexHöhe
+    r) resol=${OPTARG} ;;
+    # Schwellwert der auf den Netzwerkoutput angewendet werden soll
+    t) th=${OPTARG} ;;
     esac
 done
+
+# check if threshold was set; if not set it to 'None' which will be parsed in the python script later on
+if [ -z "$th" ]; then
+    th=None
+fi
 
 mkdir -p $dst_dir
 
@@ -28,16 +32,8 @@ docker run \
     --rm \
     --name deepLab_segmentation \
     -it ippg-toolbox-deeplab:latest \
-    bash dockerexec.sh -r $resol -p $output_probas
+    bash dockerexec.sh -r $resol -t $th
 
 printf "Waiting for docker container to finish...\n"
 
-# docker wait deepLab_segmentation
-
 printf "Docker container stopped.\n"
-
-if [ $keep_orig_seg_results == "False" ]
-then
-    printf "Deleting original segmenation results. Only resized results will be kept...\n"
-    rm -r $dst_dir/segmentation_results
-fi

@@ -257,7 +257,8 @@ def main(unused_argv):
 
     # Prepare for visualization.
     tf.gfile.MakeDirs(FLAGS.vis_logdir)
-    save_dir = os.path.join(FLAGS.vis_logdir, _SEMANTIC_PREDICTION_SAVE_FOLDER)
+    # save_dir = os.path.join(FLAGS.vis_logdir, _SEMANTIC_PREDICTION_SAVE_FOLDER)
+    save_dir = FLAGS.vis_logdir
     tf.gfile.MakeDirs(save_dir)
     raw_save_dir = os.path.join(
         FLAGS.vis_logdir, _RAW_SEMANTIC_PREDICTION_SAVE_FOLDER)
