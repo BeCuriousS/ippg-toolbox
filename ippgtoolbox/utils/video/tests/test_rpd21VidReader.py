@@ -1,26 +1,26 @@
 """
 -------------------------------------------------------------------------------
-Created: 21.02.2021, 18:59
+Created: 04.03.2022, 11:33
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
 Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
-Purpose: Tests for the BP4DVidReader class.
+Purpose: Tests for the RPD21VidReader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from ippgtoolbox.utils import BP4DVidReader
+from ippgtoolbox.utils import RPD21VidReader
 import matplotlib.pyplot as plt
 
-VIDEO_PATH = '/media/super_fast_storage_2/matthieu_scherpf/2019_06_26_BP4D+_v0.2/measurements/F001/T1/video'
+VIDEO_PATH = '/media/slow_storage/matthieu_scherpf/2021_10_RPD21_dataset/measurements/2020-028-003/RGB.avi'
 
 
-class TestBP4DVidReader:
+class TestRPD21VidReader:
 
     def __init__(self):
-        self.vid_obj = BP4DVidReader(VIDEO_PATH)
+        self.vid_obj = RPD21VidReader(VIDEO_PATH)
 
     def test_readMetaData(self):
         self.vid_obj.readMetaData()
@@ -61,9 +61,9 @@ class TestBP4DVidReader:
 
 if __name__ == '__main__':
 
-    testBP4DVidReader = TestBP4DVidReader()
-    testBP4DVidReader.test_readMetaData()
-    testBP4DVidReader.test_reader_next()
-    testBP4DVidReader.test_reader_nextAtIndex()
+    testRPD21VidReader = TestRPD21VidReader()
+    testRPD21VidReader.test_readMetaData()
+    testRPD21VidReader.test_reader_next()
+    testRPD21VidReader.test_reader_nextAtIndex()
 
 # %%

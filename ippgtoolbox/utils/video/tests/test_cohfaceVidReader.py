@@ -1,26 +1,26 @@
 """
 -------------------------------------------------------------------------------
-Created: 21.02.2021, 18:59
+Created: 07.02.2022, 13:05
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
 Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
-Purpose: Tests for the BP4DVidReader class.
+Purpose: Tests for the COHFACEVidReader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from ippgtoolbox.utils import BP4DVidReader
+from ippgtoolbox.utils import COHFACEVidReader
 import matplotlib.pyplot as plt
 
-VIDEO_PATH = '/media/super_fast_storage_2/matthieu_scherpf/2019_06_26_BP4D+_v0.2/measurements/F001/T1/video'
+VIDEO_PATH = '/media/super_fast_storage_2/matthieu_scherpf/2016_12_COHFACE/measurements/1/0/data.avi'
 
 
-class TestBP4DVidReader:
+class TestCOHFACEVidReader:
 
     def __init__(self):
-        self.vid_obj = BP4DVidReader(VIDEO_PATH)
+        self.vid_obj = COHFACEVidReader(VIDEO_PATH)
 
     def test_readMetaData(self):
         self.vid_obj.readMetaData()
@@ -61,9 +61,9 @@ class TestBP4DVidReader:
 
 if __name__ == '__main__':
 
-    testBP4DVidReader = TestBP4DVidReader()
-    testBP4DVidReader.test_readMetaData()
-    testBP4DVidReader.test_reader_next()
-    testBP4DVidReader.test_reader_nextAtIndex()
+    testCOHFACEVidReader = TestCOHFACEVidReader()
+    testCOHFACEVidReader.test_readMetaData()
+    testCOHFACEVidReader.test_reader_next()
+    testCOHFACEVidReader.test_reader_nextAtIndex()
 
 # %%

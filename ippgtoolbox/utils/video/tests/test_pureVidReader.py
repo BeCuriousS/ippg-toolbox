@@ -1,26 +1,26 @@
 """
 -------------------------------------------------------------------------------
-Created: 21.02.2021, 18:59
+Created: 07.02.2022, 12:55
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
 Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
-Purpose: Tests for the BP4DVidReader class.
+Purpose: Tests for the PUREVidReader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from ippgtoolbox.utils import BP4DVidReader
+from ippgtoolbox.utils import PUREVidReader
 import matplotlib.pyplot as plt
 
-VIDEO_PATH = '/media/super_fast_storage_2/matthieu_scherpf/2019_06_26_BP4D+_v0.2/measurements/F001/T1/video'
+VIDEO_PATH = '/media/super_fast_storage_2/matthieu_scherpf/2014_01_PURE/measurements/01/01/vid'
 
 
-class TestBP4DVidReader:
+class TestPUREVidReader:
 
     def __init__(self):
-        self.vid_obj = BP4DVidReader(VIDEO_PATH)
+        self.vid_obj = PUREVidReader(VIDEO_PATH)
 
     def test_readMetaData(self):
         self.vid_obj.readMetaData()
@@ -61,9 +61,9 @@ class TestBP4DVidReader:
 
 if __name__ == '__main__':
 
-    testBP4DVidReader = TestBP4DVidReader()
-    testBP4DVidReader.test_readMetaData()
-    testBP4DVidReader.test_reader_next()
-    testBP4DVidReader.test_reader_nextAtIndex()
+    testPUREVidReader = TestPUREVidReader()
+    testPUREVidReader.test_readMetaData()
+    testPUREVidReader.test_reader_next()
+    testPUREVidReader.test_reader_nextAtIndex()
 
 # %%

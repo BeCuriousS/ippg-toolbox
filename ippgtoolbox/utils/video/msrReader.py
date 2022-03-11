@@ -233,7 +233,7 @@ class MSRReader():
         self._readMetaData = False  # check if meta data of the video has been read
 
     def reader_next(self, startFrameIndex=0, return_ts=False):
-        """Generator that yields frames and timestamps frame by frame until the video is completly read.
+        """Generator that yields frames and timestamps frame by frame until the video is completely read.
 
         Args:
             startFrameIndex (int, optional): frame index from which to start reading
@@ -424,6 +424,7 @@ class MSRReader():
         """Assumes the pointer is directly(!) before the next timestamp. It is intended
         to be used together with _getNextFrame.
         """
+        # NOTE to get timestamp in seconds division by timerFreq is required
         if self._frameCounter < self.numberOfFrames:
             timestamp = int.from_bytes(
                 f.read(8), byteorder=self.byteorder, signed=False)
@@ -510,7 +511,7 @@ class MSR2Reader():
         self._readMetaData = False  # check if meta data of the video has been read
 
     def reader_next(self, startFrameIndex=0, return_ts=False):
-        """Generator that yields frames and timestamps frame by frame until the video is completly read.
+        """Generator that yields frames and timestamps frame by frame until the video is completely read.
 
         Args:
             startFrameIndex (int, optional): frame index from which to start reading
@@ -755,6 +756,7 @@ class MSR2Reader():
         """Assumes the pointer is directly(!) before the next timestamp. It is intended
         to be used together with _getNextFrame.
         """
+        # NOTE to get timestamp in seconds division by timerFreq is required
         if self._frameCounter < self.numberOfFrames:
             timestamp = int.from_bytes(
                 f.read(8), byteorder=self.byteorder, signed=False)

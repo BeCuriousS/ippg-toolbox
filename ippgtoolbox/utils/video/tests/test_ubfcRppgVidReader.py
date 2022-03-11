@@ -7,20 +7,20 @@ Email: Matthieu.Scherpf@tu-dresden.de
 Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
-Purpose: Tests for the BP4DVidReader class.
+Purpose: Tests for the UBFCRPPGVidReader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from ippgtoolbox.utils import BP4DVidReader
+from ippgtoolbox.utils import UBFCRPPGVidReader
 import matplotlib.pyplot as plt
 
-VIDEO_PATH = '/media/super_fast_storage_2/matthieu_scherpf/2019_06_26_BP4D+_v0.2/measurements/F001/T1/video'
+VIDEO_PATH = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/measurements/subject1/vid.avi'
 
 
-class TestBP4DVidReader:
+class TestUBFCRPPGVidReader:
 
     def __init__(self):
-        self.vid_obj = BP4DVidReader(VIDEO_PATH)
+        self.vid_obj = UBFCRPPGVidReader(VIDEO_PATH)
 
     def test_readMetaData(self):
         self.vid_obj.readMetaData()
@@ -61,9 +61,9 @@ class TestBP4DVidReader:
 
 if __name__ == '__main__':
 
-    testBP4DVidReader = TestBP4DVidReader()
-    testBP4DVidReader.test_readMetaData()
-    testBP4DVidReader.test_reader_next()
-    testBP4DVidReader.test_reader_nextAtIndex()
+    testUBFCRPPGVidReader = TestUBFCRPPGVidReader()
+    testUBFCRPPGVidReader.test_readMetaData()
+    testUBFCRPPGVidReader.test_reader_next()
+    testUBFCRPPGVidReader.test_reader_nextAtIndex()
 
 # %%

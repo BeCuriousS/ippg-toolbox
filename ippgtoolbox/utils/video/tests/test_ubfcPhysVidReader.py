@@ -1,26 +1,26 @@
 """
 -------------------------------------------------------------------------------
-Created: 21.02.2021, 18:59
+Created: 15.02.2022, 23:38
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
 Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
-Purpose: Tests for the UBFCVidReader class.
+Purpose: Tests for the UBFCPhysVidReader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from ippgtoolbox.utils import UBFCVidReader
+from ippgtoolbox.utils import UBFCPHYSVidReader
 import matplotlib.pyplot as plt
 
-VIDEO_PATH = '/media/fast_storage/matthieu_scherpf/2018_12_UBFC_Dataset/measurements/subject1/vid.avi'
+VIDEO_PATH = '/media/super_fast_storage_2/matthieu_scherpf/2021_03_UBFC-PHYS/measurements/s1/T1/vid_s1_T1.avi'
 
 
-class TestUBFCVidReader:
+class TestUBFCPhysVidReader:
 
     def __init__(self):
-        self.vid_obj = UBFCVidReader(VIDEO_PATH)
+        self.vid_obj = UBFCPHYSVidReader(VIDEO_PATH)
 
     def test_readMetaData(self):
         self.vid_obj.readMetaData()
@@ -61,9 +61,9 @@ class TestUBFCVidReader:
 
 if __name__ == '__main__':
 
-    testUBFCVidReader = TestUBFCVidReader()
-    testUBFCVidReader.test_readMetaData()
-    testUBFCVidReader.test_reader_next()
-    testUBFCVidReader.test_reader_nextAtIndex()
+    testUBFCPhysVidReader = TestUBFCPhysVidReader()
+    testUBFCPhysVidReader.test_readMetaData()
+    testUBFCPhysVidReader.test_reader_next()
+    testUBFCPhysVidReader.test_reader_nextAtIndex()
 
 # %%

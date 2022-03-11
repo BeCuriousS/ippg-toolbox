@@ -1,26 +1,26 @@
 """
 -------------------------------------------------------------------------------
-Created: 21.02.2021, 18:59
+Created: 04.03.2022, 11:33
 -------------------------------------------------------------------------------
 Author: Matthieu Scherpf
 Email: Matthieu.Scherpf@tu-dresden.de
 Website: https://becuriouss.github.io/matthieu-scherpf/
 Project page: tba
 -------------------------------------------------------------------------------
-Purpose: Tests for the BP4DVidReader class.
+Purpose: Tests for the DEAPVidReader class.
 -------------------------------------------------------------------------------
 """
 # %%
-from ippgtoolbox.utils import BP4DVidReader
+from ippgtoolbox.utils import DEAPVidReader
 import matplotlib.pyplot as plt
 
-VIDEO_PATH = '/media/super_fast_storage_2/matthieu_scherpf/2019_06_26_BP4D+_v0.2/measurements/F001/T1/video'
+VIDEO_PATH = '/media/fast_storage/matthieu_scherpf/2012_01_DEAP/measurements/s01/trial01/s01_trial01.avi'
 
 
-class TestBP4DVidReader:
+class TestDEAPVidReader:
 
     def __init__(self):
-        self.vid_obj = BP4DVidReader(VIDEO_PATH)
+        self.vid_obj = DEAPVidReader(VIDEO_PATH)
 
     def test_readMetaData(self):
         self.vid_obj.readMetaData()
@@ -61,9 +61,9 @@ class TestBP4DVidReader:
 
 if __name__ == '__main__':
 
-    testBP4DVidReader = TestBP4DVidReader()
-    testBP4DVidReader.test_readMetaData()
-    testBP4DVidReader.test_reader_next()
-    testBP4DVidReader.test_reader_nextAtIndex()
+    testDEAPVidReader = TestDEAPVidReader()
+    testDEAPVidReader.test_readMetaData()
+    testDEAPVidReader.test_reader_next()
+    testDEAPVidReader.test_reader_nextAtIndex()
 
 # %%
