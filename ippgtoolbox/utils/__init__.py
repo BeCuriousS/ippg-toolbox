@@ -11,6 +11,7 @@ from .video import MRNIRPINDOORVidReader
 from .video import VICARPPG2VidReader
 from .video import DEAPVidReader
 from .video import RPD21VidReader
+from .video import VIPLHRV1VidReader
 
 from .signal import UBFCSigReader
 from .signal import BP4DSigReader
