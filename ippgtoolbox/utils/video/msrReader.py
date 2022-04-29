@@ -15,6 +15,7 @@ import os
 import numpy as np
 import struct
 from datetime import date, time, datetime
+from .baseVidReaders import _img_type_conversion
 
 
 Logger.setGlobalLoglvl('error')
@@ -198,7 +199,9 @@ class MSRReader():
     """Reads a msr version 1 (*.msr) video file so that it can be used in python. This class is developed based on the MSRReader.m from the matfiles. MSR is a custom video format developed and used internally at the IBMT.
     """
 
-    def __init__(self, absFileName, byteorder='little', img_coord_sys='indices'):
+    def __init__(self, absFileName, byteorder='little',
+                 img_coord_sys='indices',
+                 return_type='uint16'):
         """Instanciate a reader for msr foramtted videos.
 
         Arguments:
@@ -231,6 +234,7 @@ class MSRReader():
         self.bitsPerChannel = None
         self._frameCounter = None  # only used for reading frame by frame
         self._readMetaData = False  # check if meta data of the video has been read
+        self._return_type = return_type
 
     def reader_next(self, startFrameIndex=0, return_ts=False):
         """Generator that yields frames and timestamps frame by frame until the video is completely read.
@@ -238,6 +242,14 @@ class MSRReader():
         Args:
             startFrameIndex (int, optional): frame index from which to start reading
             return_ts (bool, optional): Set if the timestamps from the camera should also be returned. Defaults to False.
+            return_type (str, optional): Set the array type to return. Can be 'uint8', 'uint16', 'float32' or 'float64'. If the original input range is adjusted if the dtype is to small, e.g. conversion of 10bit frame to uint8 (see following examples). Ranges depending on colordepth:
+                - 8bit  -> dtype out -> uint8  with range [0, 255]
+                - 10bit -> dtype out -> uint8  with range [0, 255]
+                - 12bit -> dtype out -> uint8  with range [0, 255]
+                - 8bit  -> dtype out -> uint16 with range [0, 255]
+                - 10bit -> dtype out -> uint16 with range [0, 1023]
+                - 12bit -> dtype out -> uint16 with range [0, 4095]
+                - Any   -> dtype out -> float32 or float64 [0., 1.]
 
         Yields:
             tuple or array: tuple for return_ts=True and numpy array otherwise.
@@ -252,13 +264,17 @@ class MSRReader():
             while self._frameCounter < self.numberOfFrames:
                 next_timestamp = self._getNextTimestamp(f)
                 next_frame = self._getNextFrame(f)
+                next_frame = _img_type_conversion(
+                    next_frame,
+                    self.bitsPerChannel[0],
+                    self._return_type)
                 self._frameCounter += 1
                 if return_ts:
                     yield (next_frame, next_timestamp)
                 else:
                     yield next_frame
 
-    def reader_nextAtIndex(self, frameIndexes, return_ts=False):
+    def reader_nextAtIndex(self, frameIndexes, return_ts=False, **kwargs):
         """
         Generator that yields frames and timestamps at given frame indexes.
 
@@ -273,12 +289,20 @@ class MSRReader():
             self._getMetaData(f)
             if return_ts:
                 for idx in frameIndexes:
-                    next_timestamp = self.getTimestampAtIndex(f, idx)
                     next_frame = self.getFrameAtIndex(f, idx)
+                    next_timestamp = self.getTimestampAtIndex(f, idx)
+                    next_frame = _img_type_conversion(
+                        next_frame,
+                        self.bitsPerChannel[0],
+                        self._return_type)
                     yield (next_frame, next_timestamp)
             else:
                 for idx in frameIndexes:
                     next_frame = self.getFrameAtIndex(f, idx)
+                    next_frame = _img_type_conversion(
+                        next_frame,
+                        self.bitsPerChannel[0],
+                        self._return_type)
                     yield next_frame
 
     def readMetaData(self):
@@ -304,7 +328,8 @@ class MSRReader():
             frame = np.reshape((binFrame & 4092)/4,
                                self.resolution, order=self.order)
             return frame
-        frame = np.zeros((self.resolution[0], self.resolution[1], 3))
+        frame = np.zeros(
+            (self.resolution[0], self.resolution[1], 3), dtype='uint16')
         binFrame = f.read(self.bytesPerFrame)
         binFrame = np.frombuffer(binFrame, dtype=np.dtype(
             np.uint32).newbyteorder(self.bos))
@@ -407,7 +432,8 @@ class MSRReader():
                 frame = np.reshape((binFrame & 4092)/4,
                                    self.resolution, order=self.order)
                 return frame
-            frame = np.zeros((self.resolution[0], self.resolution[1], 3))
+            frame = np.zeros(
+                (self.resolution[0], self.resolution[1], 3), dtype='uint16')
             binFrame = f.read(self.bytesPerFrame)
             binFrame = np.frombuffer(binFrame, dtype=np.dtype(
                 np.uint32).newbyteorder(self.bos))
@@ -464,7 +490,8 @@ class MSR2Reader():
     """Reads a msr version 2 (*.msr2) video file so that it can be used in python. This class is developed based on the MSR2ReaderV2.m from the matfiles. MSR2 is a custom video format developed and used internally at the IBMT.
     """
 
-    def __init__(self, absFileName, byteorder='big', img_coord_sys='indices'):
+    def __init__(self, absFileName, byteorder='big', img_coord_sys='indices',
+                 return_type='uint16'):
         """Instanciate a reader for msr foramtted videos.
 
         Arguments:
@@ -473,6 +500,14 @@ class MSR2Reader():
         Keyword Arguments:
             byteorder {str} -- little endian or big endian architecture (default: {'little'})
             img_coord_sys {str} -- defines the orientation of the images ('indices' or 'spatial') (default: {'indices'})
+            return_type (str, optional): Set the array type to return. Can be 'uint8', 'uint16', 'float32' or 'float64'. If the original input range is adjusted if the dtype is to small, e.g. conversion of 10bit frame to uint8 (see following examples). Ranges depending on colordepth:
+                - 8bit  -> dtype out -> uint8  with range [0, 255]
+                - 10bit -> dtype out -> uint8  with range [0, 255]
+                - 12bit -> dtype out -> uint8  with range [0, 255]
+                - 8bit  -> dtype out -> uint16 with range [0, 255]
+                - 10bit -> dtype out -> uint16 with range [0, 1023]
+                - 12bit -> dtype out -> uint16 with range [0, 4095]
+                - Any   -> dtype out -> float32 or float64 [0., 1.]
         """
         self.absFileName = absFileName
         self.byteorder = byteorder
@@ -509,6 +544,7 @@ class MSR2Reader():
 
         self._frameCounter = None  # only used for reading frame by frame
         self._readMetaData = False  # check if meta data of the video has been read
+        self._return_type = return_type
 
     def reader_next(self, startFrameIndex=0, return_ts=False):
         """Generator that yields frames and timestamps frame by frame until the video is completely read.
@@ -530,13 +566,17 @@ class MSR2Reader():
             while self._frameCounter < self.numberOfFrames:
                 next_timestamp = self._getNextTimestamp(f)
                 next_frame = self._getNextFrame(f)
+                next_frame = _img_type_conversion(
+                    next_frame,
+                    self.bitsPerChannel[0],
+                    self._return_type)
                 self._frameCounter += 1
                 if return_ts:
                     yield (next_frame, next_timestamp)
                 else:
                     yield next_frame
 
-    def reader_nextAtIndex(self, frameIndexes, return_ts=False):
+    def reader_nextAtIndex(self, frameIndexes, return_ts=False, **kwargs):
         """
         Generator that yields frames and timestamps at given frame indexes.
 
@@ -551,12 +591,20 @@ class MSR2Reader():
             self._getMetaData(f)
             if return_ts:
                 for idx in frameIndexes:
-                    next_timestamp = self.getTimestampAtIndex(f, idx)
                     next_frame = self.getFrameAtIndex(f, idx)
+                    next_timestamp = self.getTimestampAtIndex(f, idx)
+                    next_frame = _img_type_conversion(
+                        next_frame,
+                        self.bitsPerChannel[0],
+                        self._return_type)
                     yield (next_frame, next_timestamp)
             else:
                 for idx in frameIndexes:
                     next_frame = self.getFrameAtIndex(f, idx)
+                    next_frame = _img_type_conversion(
+                        next_frame,
+                        self.bitsPerChannel[0],
+                        self._return_type)
                     yield next_frame
 
     def readMetaData(self):
@@ -586,7 +634,8 @@ class MSR2Reader():
 
         if 'RGB' in self.colorModel:
             bpc = self.bitsPerChannel[0]
-            frame = np.zeros((self.resolution[0], self.resolution[1], 3))
+            frame = np.zeros(
+                (self.resolution[0], self.resolution[1], 3), dtype='uint16')
             frame[:, :, 2] = np.reshape(
                 (binFrame & (2**bpc-1)), self.resolution, order=self.order)
             frame[:, :, 1] = np.reshape(
@@ -742,7 +791,8 @@ class MSR2Reader():
 
             if 'RGB' in self.colorModel:
                 bpc = self.bitsPerChannel[0]
-                frame = np.zeros((self.resolution[0], self.resolution[1], 3))
+                frame = np.zeros(
+                    (self.resolution[0], self.resolution[1], 3), dtype='uint16')
                 frame[:, :, 2] = np.reshape(
                     (binFrame & (2**bpc-1)), self.resolution, order=self.order)
                 frame[:, :, 1] = np.reshape(

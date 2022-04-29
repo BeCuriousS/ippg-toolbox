@@ -22,8 +22,8 @@ class HRVCAMVidReader(VidFramesReader):
     """Video reader class for videos of the HRVCam database. This class is for simple compatibility with the MSRReader/MSR2Reader class.
     """
 
-    def __init__(self, absFileName):
-        super().__init__(absFileName, 'pgm')
+    def __init__(self, absFileName, **kwargs):
+        super().__init__(absFileName, 'pgm', **kwargs)
 
     def getFrameAtIndex(self, frameIndex):
         self._checkFrameIndex(frameIndex)
@@ -38,3 +38,8 @@ class HRVCAMVidReader(VidFramesReader):
     def _getMetaData(self):
         # 30fps from paper containing dataset description
         super()._getMetaData(30, (8, 8, 8))
+        absTsFileName = os.path.join(os.path.split(
+            self.absFileName)[0], 'misc', 'CameraTimeLog0.txt')
+        cam_ts = np.loadtxt(absTsFileName)
+        # from secs to microsecs
+        self.timestamps = (cam_ts*1e6).astype(np.int64)

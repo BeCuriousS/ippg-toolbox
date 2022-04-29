@@ -10,10 +10,8 @@ Project page: tba
 Purpose: Reader class to read the video files from MR-NIRP-Car dataset. This dataset consists of .pgm files where demosaicing must be applied.
 -------------------------------------------------------------------------------
 """
-from multiprocessing.sharedctypes import Value
 from ..logger import Logger
 import os
-import numpy as np
 import cv2
 from .baseVidReaders import VidFramesReader
 
@@ -22,9 +20,8 @@ class MRNIRPCARVidReader(VidFramesReader):
     """Video reader class for videos of the MR-NIRP-Car database. This class is for simple compatibility with the MSRReader/MSR2Reader class.
     """
 
-    def __init__(self, absFileName, bit_depth=10):
-        super().__init__(absFileName, 'pgm')
-        self.bit_depth = bit_depth
+    def __init__(self, absFileName, return_type='uint16', **kwargs):
+        super().__init__(absFileName, 'pgm', return_type=return_type, **kwargs)
 
     def getFrameAtIndex(self, frameIndex):
         self._checkFrameIndex(frameIndex)
@@ -34,19 +31,10 @@ class MRNIRPCARVidReader(VidFramesReader):
         frame = cv2.imread(abs_frame_path, cv2.IMREAD_ANYDEPTH)
         # apply demosaicing (sensor format: 'rggb')
         frame = cv2.cvtColor(frame, cv2.COLOR_BAYER_BG2RGB)
-        # convert to specified bitdepth original pixel depth
-        # original bit depth is 10bits but orientation is msb when read with cv
-        frame = frame/2**6  # convert to 10bits
-        if self.bit_depth == 8:
-            frame = frame/(2**10-1) * (2**8-1)
-            frame = frame.astype('uint8')
-        elif self.bit_depth == 10:
-            frame = frame.astype('uint16')
-        else:
-            ValueError('The specified bit depth is not implemented.')
+        # original bit depth is 10bits. When read with opencv the values starting from msb are used. Therefore division by (2**16-1) instead of (2**10-1). Returns float with range [0., 1.]. Conversion is then done in class method reader_next/reader_nextAtIndex.
+        frame = frame/(2**16-1)
         return frame
 
     def _getMetaData(self):
         # 30fps from paper containing dataset description
-        bd = self.bit_depth
-        super()._getMetaData(30, (bd, bd, bd))
+        super()._getMetaData(30, (10, 10, 10))

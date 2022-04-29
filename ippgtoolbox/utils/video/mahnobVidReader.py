@@ -22,9 +22,9 @@ class MAHNOBVidReader(VidFramesReader):
     """Video reader class for videos of the refactored MAHNOB-HCI database. This class is for simple compatibility with the MSRReader/MSR2Reader class.
     """
 
-    def __init__(self, absFileName):
-        super().__init__(absFileName, 'png')
+    def __init__(self, absFileName, **kwargs):
+        super().__init__(absFileName, 'png', **kwargs)
 
     def _getMetaData(self):
-        # from the session.xml files (the manual says 60 fps; cv2.VideoCapture says 61 fps)
+        # 60.9708 fps from the session.xml files (the manual says 60 fps; cv2.VideoCapture says 61 fps)
         super()._getMetaData(60.9708, (8, 8, 8))

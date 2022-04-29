@@ -22,8 +22,8 @@ class BP4DVidReader(VidFramesReader):
     """Video reader class for videos of the BP4D+ database. This class is for simple compatibility with the MSRReader/MSR2Reader class.
     """
 
-    def __init__(self, absFileName):
-        super().__init__(absFileName, 'jpg')
+    def __init__(self, absFileName, **kwargs):
+        super().__init__(absFileName, 'jpg', **kwargs)
 
     def _getMetaData(self):
         super()._getMetaData(25, (8, 8, 8))
