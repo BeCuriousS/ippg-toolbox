@@ -698,7 +698,7 @@ class MSR2Reader():
                              self.colorModel + ' - is not supported')
 
         self.bitsPerChannel = np.array(struct.unpack(
-            8*'B', f.read(8))[0:len(self.colorModel)])
+            8*'B', f.read(8))[0:len(self.colorModel)]).astype(np.int64)
 
         self.bytesPerFrame = None
 
