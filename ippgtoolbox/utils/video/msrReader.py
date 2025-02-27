@@ -637,11 +637,11 @@ class MSR2Reader():
             frame = np.zeros(
                 (self.resolution[0], self.resolution[1], 3), dtype='uint16')
             frame[:, :, 2] = np.reshape(
-                (binFrame & (2**bpc-1)), self.resolution, order=self.order)
+                (binFrame & int(2**bpc-1)), self.resolution, order=self.order)
             frame[:, :, 1] = np.reshape(
-                (binFrame & (2**(bpc*2)-2**bpc))/(2**bpc), self.resolution, order=self.order)
+                (binFrame & int(2**(bpc*2)-2**bpc))/(2**bpc), self.resolution, order=self.order)
             frame[:, :, 0] = np.reshape(
-                (binFrame & (2**(bpc*3)-2**(bpc*2)))/(2**(bpc*2)), self.resolution, order=self.order)
+                (binFrame & int(2**(bpc*3)-2**(bpc*2)))/(2**(bpc*2)), self.resolution, order=self.order)
             return frame
 
     def getTimestampAtIndex(self, f: 'filehandler', frameIndex):
@@ -794,11 +794,11 @@ class MSR2Reader():
                 frame = np.zeros(
                     (self.resolution[0], self.resolution[1], 3), dtype='uint16')
                 frame[:, :, 2] = np.reshape(
-                    (binFrame & (2**bpc-1)), self.resolution, order=self.order)
+                    (binFrame & int(2**bpc-1)), self.resolution, order=self.order)
                 frame[:, :, 1] = np.reshape(
-                    (binFrame & (2**(bpc*2)-2**bpc))/(2**bpc), self.resolution, order=self.order)
+                    (binFrame & int(2**(bpc*2)-2**bpc))/(2**bpc), self.resolution, order=self.order)
                 frame[:, :, 0] = np.reshape(
-                    (binFrame & (2**(bpc*3)-2**(bpc*2)))/(2**(bpc*2)), self.resolution, order=self.order)
+                    (binFrame & int(2**(bpc*3)-2**(bpc*2)))/(2**(bpc*2)), self.resolution, order=self.order)
                 return frame
         return None
 
