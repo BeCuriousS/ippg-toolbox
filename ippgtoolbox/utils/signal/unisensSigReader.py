@@ -92,7 +92,7 @@ class UnisensSigReader():
         self._getMetaDataFromCSV()
         values = np.loadtxt(self.full_file_name, dtype=float,
                             delimiter=self.delimiter)
-        return values[:, 0].astype(np.int)
+        return values[:, 0].astype(int)
 
     def _readXMLTree(self):
         tree = ET.parse(os.path.join(
